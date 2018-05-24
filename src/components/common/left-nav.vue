@@ -129,7 +129,7 @@
         data: null,
         activeName: null,
         openNames: [],
-        title: '管理控制台',
+        title: '酒机后台管理系统',
         spanLeft: 4,
         spanRight: 19
       }

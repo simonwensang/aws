@@ -1,63 +1,73 @@
 <style rel="stylesheet/scss" scoped>
 </style>
 <template>
-  <div style="background: #fff;" class="p20">
-    <div v-title>域名j价格</div>
-    <Table :loading="loading" :no-data-text="noDataText" :columns="columns"
-           :data="tableData" class="mt10"></Table>
-  </div>
+  <i-table :columns="columns1" :data="data1"></i-table>
 </template>
 <script>
-  import Api from "../../store/Api";
-  import Util from "../../util/util";
-  export default {
-    data() {
-      return {
-        loading: true,
-        noDataText: '数据加载中',
-        columns: [
-          {
-            title: '域名',
-            key: 'name',
-          },
-          {
-            title: '原价（元/年）',
-            key: 'originPrice',
-          },
-          {
-            title: '促销价（元/年）',
-            key: 'price',
-          },
-          {
-            title: '续费价（元/年）',
-            key: 'recharge',
-          }
-        ],
-        tableData: [],
-        total: 0,
-      }
-    },
-    created(){
-      this.$emit('setNavInfo', '域名价格', 'domainPrice', 'domain');
-      this.getInfo();
-    },
-    methods: {
-      getInfo() {
-        let t = this;
-        let data = {'pageNo': 1, 'pageSize': 100};
-        Api.domainQueryDomain(data).then(response => {
-          if (response.code == 200) {
-            let records = response.dataMap.records;
-            if (!!records && records.length > 0) {
-            } else {
-              records = [];
-              t.noDataText = '暂无数据';
+   export default {
+        data () {
+            return {
+                self: this,
+                columns7: [
+                    {
+                        title: '姓名',
+                        key: 'name',
+                        render (row, column, index) {
+                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
+                        }
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render (row, column, index) {
+                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+                        }
+                    }
+                ],
+                data6: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
+                ]
             }
-            t.tableData = records;
-            t.loading = false;
-          }
-        });
-      }
+        },
+        methods: {
+            show (index) {
+                this.$Modal.info({
+                    title: '用户信息',
+                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
+                })
+            },
+            remove (index) {
+                this.data6.splice(index, 1);
+            }
+        }
     }
-  }
 </script>

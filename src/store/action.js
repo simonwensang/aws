@@ -48,6 +48,7 @@ export function get(url, params) {
 }
 
 export function post(url, params) {
+  console.log('url',url)
   return axios({
     method: 'post',
     url: url,

@@ -1,97 +1,49 @@
 <style rel="stylesheet/scss" scoped>
 </style>
 <template>
-  <div style="background: #fff;" class="p20">
-    <div v-title>域名列表</div>
-    <Row>
-      <Button type="primary" icon="plus-round" @click="reg">注册新域名</Button>
-    </Row>
-    <Table :loading="loading" :no-data-text="noDataText" :columns="columns"
-           :data="tableData" class="mt10"></Table>
-  </div>
+  <i-table :columns="columns1" :data="data1"></i-table>
 </template>
 <script>
-  import Api from "../../store/Api";
-  import Util from "../../util/util";
   export default {
-    data() {
-      return {
-        loading: true,
-        noDataText: '数据加载中',
-        columns: [
-          {
-            title: '域名',
-            key: 'name',
-          },
-          {
-            title: '域名状态',
-            key: 'commonStatus',
-          },
-          {
-            title: '注册日期',
-            key: 'createTime',
-          },
-          {
-            title: '到期日期',
-            key: 'expirationTime',
-          },
-          {
-            title: '操作',
-            key: 'action',
-            width: 150,
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('a', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({name: 'domainDetail', params: { 'id': this.tableData[params.index].id }});
+        data () {
+            return {
+                columns1: [
+                    {
+                        title: '姓名',
+                        key: 'name'
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
                     }
-                  }
-                }, '查看')
-              ]);
+                ],
+                data1: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
+                ]
             }
-          }
-        ],
-        tableData: [],
-        total: 0,
-      }
-    },
-    mounted(){
-      this.$emit('setNavInfo', '域名列表', 'domainList', 'domain');
-      this.getInfo();
-    },
-    methods: {
-      reg() {
-        this.$router.push({ name: 'domainSearch'});
-      },
-      getInfo() {
-        let t = this;
-        let data = {'pageNo': 1, 'pageSize': 100};
-        Api.queryUserDomain(data).then(response => {
-          if (response.code == 200) {
-            let records = response.dataMap.records;
-            if (!!records && records.length > 0) {
-              for (let i = 0; i < records.length; i++) {
-                records[i].createTime = Util.transformTime(records[i].createTime);
-                records[i].expirationTime = Util.transformTime(records[i].expirationTime);
-              }
-            } else {
-              records = [];
-              t.noDataText = '暂无数据';
-            }
-            t.tableData = records;
-            t.loading = false;
-          }
-        });
-      },
+        }
     }
-  }
 </script>

@@ -11,7 +11,7 @@
         </div>
         <MenuItem name="console">
           <Icon type="ios-navigate" :size="iconSize"></Icon>
-          <span class="layout-text">管理控制台</span>
+          <span class="layout-text">酒机后台管理系统</span>
         </MenuItem>
         <Submenu name="1">
           <template slot="title">
@@ -72,7 +72,7 @@
         data: null,
         activeName: null,
         openNames: [],
-        title: '管理控制台',
+        title: '酒机后台管理系统',
         spanLeft: 4,
         spanRight: 19
       }

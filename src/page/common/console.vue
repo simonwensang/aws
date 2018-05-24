@@ -80,52 +80,8 @@
 </style>
 <template>
   <div>
-    <div v-title>管理控制台</div>
+    <div v-title>酒机后台管理系统</div>
     <Row :gutter="16" class="mt15">
-      <Col :xs="24" :sm="12" :md="12" :lg="6">
-      <Card class="mt5 mb5">
-        <table>
-          <tr>
-            <td width="76px">
-              <div class="x-block-icon">
-                <Icon class="icon-overview" type="social-yen"></Icon>
-              </div>
-            </td>
-            <td class="x-block-right">余额：
-              <a href="/#/finance/index">￥<span id="account_sum">{{accountBalance}}</span></a>
-              <a class="ml20 recharge" v-on:click="pay" type="primary">充值</a></td>
-          </tr>
-        </table>
-      </Card>
-      </Col>
-      <Col :xs="24" :sm="12" :md="12" :lg="6">
-      <Card class="mt5 mb5">
-        <table>
-          <tr>
-            <td width="76px">
-              <div class="x-block-icon">
-                <Icon class="icon-overview" type="social-usd"></Icon>
-              </div>
-            </td>
-            <td>可开票金额：<br/>￥0</td>
-          </tr>
-        </table>
-      </Card>
-      </Col>
-      <Col :xs="24" :sm="12" :md="12" :lg="6">
-      <Card class="mt5 mb5">
-        <table>
-          <tr>
-            <td width="76px">
-              <div class="x-block-icon">
-                <Icon class="icon-overview" type="android-textsms"></Icon>
-              </div>
-            </td>
-            <td>短信剩余条数：<br/>{{smsCount}}</td>
-          </tr>
-        </table>
-      </Card>
-      </Col>
       <Col :xs="24" :sm="12" :md="12" :lg="6">
       <Card class="mt5 mb5">
         <table>
@@ -155,70 +111,12 @@
                 <Icon type="ios-close" size="32"></Icon>
               </div>
               <div class="fl recommended-product-text">
-                <router-link :to="'/domain/list'" style="display: block;">域名服务</router-link>
+                <router-link :to="'/domain/list'" style="display: block;">商家管理</router-link>
               </div>
             </div>
             </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="'/user/safe'" style="display: block;">用户管理</router-link>
-              </div>
-            </div>
-            </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="'/finance/index'" style="display: block;">财务中心</router-link>
-              </div>
-            </div>
-            </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="''" style="display: block;">域名服务</router-link>
-              </div>
-            </div>
-            </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="''" style="display: block;">域名服务</router-link>
-              </div>
-            </div>
-            </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="''" style="display: block;">域名服务</router-link>
-              </div>
-            </div>
-            </Col>
-            <Col :xs="24" :sm="12" :md="6">
-            <div class="recommended-product">
-              <div class="fl recommended-product-icon">
-                <Icon type="ios-close" size="32"></Icon>
-              </div>
-              <div class="fl recommended-product-text">
-                <router-link :to="''" style="display: block;">域名服务</router-link>
-              </div>
-            </div>
-            </Col>
+          
+         
 
           </Row>
         </div>
@@ -239,7 +137,7 @@
       }
     },
     mounted(){
-      this.$emit('setNavInfo', '管理控制台', 'console', 'console');
+      this.$emit('setNavInfo', '酒机后台管理系统', 'console', 'console');
       this.getInfo();
     },
     methods: {
