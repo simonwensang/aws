@@ -37,8 +37,8 @@
           <Icon type="person"></Icon>
           系统权限
         </template>
-        <MenuItem name="userSafe">安全设置</MenuItem>
-        <MenuItem name="userMessage">消息管理</MenuItem>
+        <!-- <MenuItem name="userSafe">安全设置</MenuItem>
+        <MenuItem name="userMessage">消息管理</MenuItem> -->
       </Submenu>
     </Menu>
   </div>
