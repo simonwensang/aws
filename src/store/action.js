@@ -10,6 +10,7 @@ import router from '../router';
 //axios.defaults.onUploadProgress= function (e) {
 //console.log(e)
 //}
+const TestUrl = 'http://server.sangyiwen.top';
 axios.create({
   timeout: 10000,
   withCredentials: true,
@@ -38,7 +39,8 @@ function checkError (error) {
 export function get(url, params) {
   return axios({
     method: 'get',
-    url: url,
+    baseURL: TestUrl,
+    url,
     data: params,
   }).then(function (response) {
     return checkStatus(response);
@@ -51,7 +53,8 @@ export function post(url, params) {
   console.log('url',url)
   return axios({
     method: 'post',
-    url: url,
+    baseURL: TestUrl,
+    url,
     data: params,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

@@ -10,13 +10,20 @@
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .ivu-card-change{
     height: 260px;
     width: 600px;
-    margin: 0 auto;
-    margin-top: 50%;
-    transform: translateY(-100%);
+  }
+  .btn-change{
+    width: 100px;
+    border-radius: 5px;
+  }
+  .form-login-chenge{
+    margin-left: 100px;
   }
 </style>
 
@@ -25,15 +32,15 @@
     <div v-title>登录</div>
     <Card class="ivu-card-change">
     <Form :rules="ruleCustom" :model="validateForm" ref="validateForm" :label-width="150" style="padding-top: 30px;">
-      <Form-item label="用户名" prop="userName">
-        <Input v-model="validateForm.userName" placeholder="用户名" style="width:300px;" :maxlength="20"></Input>
+      <Form-item label="用户名" prop="account">
+        <Input v-model="validateForm.account" placeholder="用户名" style="width:300px;" :maxlength="20"></Input>
       </Form-item>
-      <Form-item label="密码" prop="userPwd">
-        <Input type="password" v-model="validateForm.userPwd" placeholder="密码" style="width:300px;" :maxlength="20"></Input>
+      <Form-item label="密码" prop="password">
+        <Input type="password" v-model="validateForm.password" placeholder="密码" style="width:300px;" :maxlength="20"></Input>
       </Form-item>
-      <Form-item>
-        <Button type="primary" @click="submitForm('validateForm')" :loading="loading">登录</Button>
-        <router-link :to="'/reg'" class="ml20">注册</router-link>
+      <Form-item class="form-login-chenge">
+        <Button type="primary" @click="submitForm('validateForm')" :loading="loading" class="btn-change">登录</Button>
+        <!-- <router-link :to="'/reg'" class="ml20">注册</router-link> -->
       </Form-item>
     </Form>
     </Card>
@@ -44,7 +51,7 @@
   import Api from '../../store/Api';
   export default {
     data() {
-      const validateUserName = (rule, value, callback) => {
+      const validateAccount = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入用户名'));
         }
@@ -53,7 +60,7 @@
         }
         callback();
       };
-      const validateUserPwd = (rule, value, callback) => {
+      const validatePassword = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         }
@@ -65,15 +72,15 @@
       return {
         loading: false,
         validateForm: {
-          userName: '',
-          userPwd: '',
+          account: '',
+          password: '',
         },
         ruleCustom: {
-          userName: [
-            {validator: validateUserName, trigger: 'blur'}
+          account: [
+            {validator: validateAccount, trigger: 'blur'}
           ],
-          userPwd: [
-            {validator: validateUserPwd, trigger: 'blur'}
+          password: [
+            {validator: validatePassword, trigger: 'blur'}
           ]
         }
       }
