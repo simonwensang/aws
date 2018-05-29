@@ -24,7 +24,7 @@ function checkStatus (response) {
       router.push({ name: 'login'});
     }
     Notice.error({
-      title: response.data.message
+      title: response.data.msg
     });
   }
   return response.data;

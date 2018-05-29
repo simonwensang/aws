@@ -94,8 +94,9 @@
 
             Api.login(t.validateForm).then(response => {
               if (response.code == 200) {
+                console.log(response)
                 Util.showNotificationBox('success', '登录成功!');
-                Util.setUser(response.dataMap);
+                Util.setUser(response.value);
                 this.$router.push({name: 'console'});
               } else {
                 t.loading = false;
