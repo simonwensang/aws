@@ -32,13 +32,22 @@
         <MenuItem name="financeOrder1">会员充值</MenuItem>
         <MenuItem name="financeOrder2">会员消费</MenuItem>
       </Submenu>
-      <Submenu name="user">
+      <!-- <Submenu name="user">
         <template slot="title">
           <Icon type="person"></Icon>
-          系统权限
+          系统管理
         </template>
-        <!-- <MenuItem name="userSafe">安全设置</MenuItem>
-        <MenuItem name="userMessage">消息管理</MenuItem> -->
+         <MenuItem name="userSafe">管理员用户列表</MenuItem>
+        <MenuItem name="userMessage">商家管理</MenuItem> 
+      </Submenu> -->
+      <Submenu name="system">
+        <template slot="title">
+          <Icon type="person"></Icon>
+          系统管理
+        </template>
+         <MenuItem name="user_list">管理员用户列表</MenuItem>
+        <MenuItem name="business_management">商家管理</MenuItem> 
+        <MenuItem name="wine_management">酒机管理</MenuItem> 
       </Submenu>
     </Menu>
   </div>

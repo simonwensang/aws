@@ -56,9 +56,6 @@ export function post(url, params) {
     baseURL: TestUrl,
     url,
     data: params,
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    },
   }).then(function (response) {
 
     return checkStatus(response);

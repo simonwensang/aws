@@ -4,12 +4,17 @@ export const otherRouter = {
   path: '/',
   name: 'otherRouter',
   //地址为空时跳转login页面
-  redirect: '/console',
+  redirect: '/login',
   component: leftNav,
   children: [
     {
       path: 'console', name: 'console', component: resolve => {
       require(['@/page/common/console.vue'], resolve)
+    }
+    },
+    {
+      path: 'system/user_list', name: 'user_list', component: resolve => {
+      require(['@/page/system/user_list/index.vue'], resolve)
     }
     },
     {

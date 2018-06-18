@@ -67,6 +67,7 @@ export default {
     return refTime;
   },
   setUser(user) {
+    console.log('user',user)
     sessionStorage.setItem("auto-wine_cloud_user", window.JSON.stringify(user));
   },
   getUser() {

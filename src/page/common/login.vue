@@ -96,7 +96,7 @@
               if (response.code == 200) {
                 console.log(response)
                 Util.showNotificationBox('success', '登录成功!');
-                Util.setUser(response.value);
+                Util.setUser(response.dataMap.sessionId);
                 this.$router.push({name: 'console'});
               } else {
                 t.loading = false;
