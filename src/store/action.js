@@ -19,10 +19,10 @@ axios.create({
 function checkStatus (response) {
   console.log(response);
   if(response.data.code != 200) {
-    if(response.data.code == 403 || response.data.code == 401  || response.data.code == 402) {
-      // 未登录
-      router.push({ name: 'login'});
-    }
+    // if(response.data.code == 302) {
+    //   // 未登录
+    //   router.push({ name: 'login'});
+    // }
     Notice.error({
       title: response.data.msg
     });
@@ -31,8 +31,9 @@ function checkStatus (response) {
 }
 
 function checkError (error) {
+  console.log('error',error)
   Notice.error({
-    title: '服务器开小差了，请稍后再试！'
+    title: '服务器开小差了，请重新登录！'
   });
 }
 

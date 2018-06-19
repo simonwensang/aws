@@ -1,6 +1,7 @@
 
 import Notice from 'iview/src/components/notice';
 import Crypto from 'crypto';
+import router from '../router';
 export default {
     /**
      * 通知框
@@ -71,7 +72,12 @@ export default {
     sessionStorage.setItem("auto-wine_cloud_user", window.JSON.stringify(user));
   },
   getUser() {
-    return JSON.parse(sessionStorage.getItem("auto-wine_cloud_user"));
+    if(!!sessionStorage.getItem("auto-wine_cloud_user")){
+      return JSON.parse(sessionStorage.getItem("auto-wine_cloud_user"));
+    }else{
+       //获取不到用户信息
+      router.push({ name: 'login'});
+    }
   },
   md5String(text) {
     var md5 = Crypto.createHash("md5");

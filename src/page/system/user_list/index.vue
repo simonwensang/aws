@@ -22,6 +22,7 @@
             </Form>
         </Modal>
         <Table border :columns="columns7" :data="data6"></Table>
+        <Page :total="totalRecords" show-total :current="pageNo" @on-change='changePage'></Page>
     </div>
 </template>
 <script>
@@ -77,8 +78,6 @@
         }
       };
             return {
-                pageNo:1,
-                pageSize:10,
                  formData: {
                     mobile: '',
                     account: '',
@@ -162,7 +161,10 @@
                 data6: [],
                 isCreat:false,
                 isEdit:false,
-                id:0
+                id:0,
+                totalRecords:0,
+                pageNo:1,
+                pageSize:10,
             }
         },
         methods: {
@@ -258,9 +260,16 @@
                                 };
                             }, this);
                         }
-                        this.data6 = response.dataMap.records
+                        this.data6 = response.dataMap.records;
+                         this.pageNo = response.dataMap.pageNo;
+                         this.totalRecords = response.dataMap.totalRecords;
                     }
                 });
+            },
+            changePage(current){
+                console.log('changePage',current);
+                this.pageNo = current;
+                this.queryUserServer()
             }
         },
         created(){
