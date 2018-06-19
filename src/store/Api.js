@@ -26,7 +26,7 @@ export default {
    //删除用户列表
   deleteUserServer(data){
      console.log('deleteUserServer',data);
-    return post('/userServer/deleteUserServer;JSESSIONID='+ Util.getUser(), data);
+    return post('/userServer/deleteUserServer/'+data.id+';JSESSIONID='+ Util.getUser());
   }
 
 }

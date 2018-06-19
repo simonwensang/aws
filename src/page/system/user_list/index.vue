@@ -7,11 +7,11 @@
             @on-ok="ok('validateForm')"
             @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
-                <FormItem label="昵称：" prop="name">
-                    <Input v-model="formData.name" style="width:300px;" :maxlength="20"></Input>
-                </FormItem>
                 <FormItem label="用户名：" prop="account">
                     <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
+                </FormItem>
+                <FormItem label="手机号码：" prop="mobile">
+                    <Input v-model="formData.mobile" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
                 <FormItem label="密码：" prop="password">
                     <Input v-model="formData.password" type="password" style="width:300px;" :maxlength="20"></Input>
@@ -29,12 +29,12 @@
   import Util from '../../../util/util';
     export default {
         data () {
-            const validateName = (rule, value, callback) => {
+            const validateMobile = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入昵称！'));
+          callback(new Error('请输入手机号码！'));
         } else {
-          if (value.length > 16) {
-            callback(new Error('昵称不能大于16个字符！'));
+          if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(value)) {
+            callback(new Error('请输入正确格式的手机号码！'));
           }
           callback();
         }
@@ -80,14 +80,14 @@
                 pageNo:1,
                 pageSize:10,
                  formData: {
-                    name: '',
+                    mobile: '',
                     account: '',
                     password: '',
                     checkPwd: '',
                 },
                 ruleCustom: {
-                userNickPwd: [
-                    { validator: validateName, trigger: 'blur' }
+                mobile: [
+                    { validator: validateMobile, trigger: 'blur' }
                 ],
                 account: [
                     { validator: validateAccount, trigger: 'blur' }
@@ -111,16 +111,20 @@
                                         type: 'person'
                                     }
                                 }),
-                                h('strong', params.row.name)
+                                h('strong', params.row.account)
                             ]);
                         }
                     },
                     {
-                        title: '创建时间',
-                        key: 'createTime'
+                        title: '用户类型',
+                        key: 'type'
                     },
                     {
-                        title: 'Action',
+                        title: '用户状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '操作',
                         key: 'action',
                         width: 150,
                         align: 'center',
@@ -236,6 +240,24 @@
             Api.queryUserServer(queryUserData).then(response => {
                if (response.code == 200) {
                         this.loading = false;
+                        if(response.dataMap.records.length > 0){
+                            response.dataMap.records.forEach(function(element) {
+                                if(element.type == 1){
+                                    element.type = '管理员'
+                                }else if(element.type == 2){
+                                    element.type = '加盟商家'
+                                }else if(element.type == 3){
+                                   element.type = '供应商'
+                                };
+                                if(element.status == 0){
+                                    element.status = '待审核'
+                                }else if(element.status == 1){
+                                    element.status = '启用'
+                                }else if(element.status == 2){
+                                   element.status = '禁止'
+                                };
+                            }, this);
+                        }
                         this.data6 = response.dataMap.records
                     }
                 });
