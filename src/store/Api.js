@@ -12,6 +12,21 @@ export default {
      delete createUserData.checkPwd;
      console.log('CreateUserData',createUserData);
     return post('/userServer/createUserServer;JSESSIONID='+ Util.getUser(), createUserData);
+  },
+   //查询用户列表
+  queryUserServer(data){
+     console.log('queryUserServer',data);
+    return post('/userServer/queryUserServer;JSESSIONID='+ Util.getUser(), data);
+  },
+   //编辑用户列表
+  updateUserServer(data){
+     console.log('updateUserServer',data);
+    return post('/userServer/updateUserServer;JSESSIONID='+ Util.getUser(), data);
+  },
+   //删除用户列表
+  deleteUserServer(data){
+     console.log('deleteUserServer',data);
+    return post('/userServer/deleteUserServer;JSESSIONID='+ Util.getUser(), data);
   }
 
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button type="primary" @click="modal1 = true">新增用户</Button>
+        <Button type="primary" @click="creatUser">新增用户</Button>
         <Modal
             v-model="modal1"
             title="请填写用户信息"
@@ -77,6 +77,8 @@
         }
       };
             return {
+                pageNo:1,
+                pageSize:10,
                  formData: {
                     name: '',
                     account: '',
@@ -100,8 +102,8 @@
                 modal1: false,
                 columns7: [
                     {
-                        title: 'Name',
-                        key: 'name',
+                        title: '用户名',
+                        key: 'account',
                         render: (h, params) => {
                             return h('div', [
                                 h('Icon', {
@@ -114,12 +116,8 @@
                         }
                     },
                     {
-                        title: 'Age',
-                        key: 'age'
-                    },
-                    {
-                        title: 'Address',
-                        key: 'address'
+                        title: '创建时间',
+                        key: 'createTime'
                     },
                     {
                         title: 'Action',
@@ -141,7 +139,7 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, 'View'),
+                                }, '编辑'),
                                 h('Button', {
                                     props: {
                                         type: 'error',
@@ -152,44 +150,36 @@
                                             this.remove(params.index)
                                         }
                                     }
-                                }, 'Delete')
+                                }, '删除')
                             ]);
                         }
                     }
                 ],
-                data6: [
-                    {
-                        name: 'John Brown',
-                        age: 18,
-                        address: 'New York No. 1 Lake Park'
-                    },
-                    {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London No. 1 Lake Park'
-                    },
-                    {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park'
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park'
-                    }
-                ]
+                data6: [],
+                isCreat:false,
+                isEdit:false,
+                id:0
             }
         },
         methods: {
             show (index) {
-                this.$Modal.info({
-                    title: 'User Info',
-                    content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
-                })
+                console.log(index)
+                this.modal1 = true;
+                this.isEdit = true;
+                this.id = this.data6[index].id
             },
             remove (index) {
-                this.data6.splice(index, 1);
+                // 删除
+                let deleteUserServerData = {'id':this.data6[index].id}
+                 Api.deleteUserServer(deleteUserServerData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '删除成功!');
+                            this.loading = false;
+                            //查询用户列表
+                            this.queryUserServer();
+                            // this.data6.splice(index, 1);
+                        }
+                        });
             },
             ok (formName) {
                 let t = this;
@@ -197,14 +187,32 @@
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
                     t.loading = true;
-                    // 新增
-                    Api.createUserServer(t.formData).then(response => {
-                    if (response.code == 200) {
-                        Util.showNotificationBox('success', '创建成功!');
-                        // this.$router.push({name: 'login'});
-                        t.loading = false;
+                    if(t.isCreat){
+                        // 新增
+                        Api.createUserServer(t.formData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '创建成功!');
+                            t.loading = false;
+                            //查询用户列表
+                            t.queryUserServer();
+                            this.isCreat = false;
+                        }
+                        });
+                    }else if (t.isEdit){
+                        // 编辑
+                         Object.assign(t.formData,{'id':t.id});
+                         console.log('updateUserServer',t.formData)
+                        Api.updateUserServer(t.formData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '编辑成功!');
+                            t.loading = false;
+                            //查询用户列表
+                            t.queryUserServer();
+                            this.isEdit = false;
+                        }
+                        });
                     }
-                    });
+                    
                 } else {
                     Util.showNotificationBox('error', '表单验证失败!');
                     return false;
@@ -212,8 +220,30 @@
                 });
             },
             cancel () {
-                this.$Message.info('Clicked cancel');
+                this.isCreat = false;
+                this.isCreat = false;
+            },
+            creatUser(){
+                this.modal1 = true;
+                this.isCreat = true;
+            },
+            queryUserServer(){
+                //查询用户列表
+            let queryUserData = {
+                'pageNo':this.pageNo,
+                'pageSize':this.pageSize
             }
+            Api.queryUserServer(queryUserData).then(response => {
+               if (response.code == 200) {
+                        this.loading = false;
+                        this.data6 = response.dataMap.records
+                    }
+                });
+            }
+        },
+        created(){
+            //查询用户列表
+           this.queryUserServer()
         }
     }
 </script>
