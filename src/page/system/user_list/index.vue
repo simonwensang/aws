@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Button type="primary" @click="creatUser">新增用户</Button>
+        <Button type="primary" @click="creatUser">{{userType == 1 ? '新增用户' : '新增商家'}}</Button>
         <Modal
             v-model="modal1"
-            title="请填写用户信息"
+            :title="formTitle"
             @on-ok="ok('validateForm')"
             @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
-                <FormItem label="用户名：" prop="account">
+                <FormItem :label="formUserName" prop="account">
                     <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
                 <FormItem label="手机号码：" prop="mobile">
@@ -99,9 +99,132 @@
                 ]
                 },
                 modal1: false,
-                columns7: [
+                columns7: [],
+                data6: [],
+                isCreat:false,
+                isEdit:false,
+                id:0,
+                totalRecords:0,
+                pageNo:1,
+                pageSize:10,
+                userType:1,
+                formTitle:'请填写用户信息',
+                formUserName:'用户名'
+            }
+        },
+        methods: {
+            show (index) {
+                console.log(index)
+                this.modal1 = true;
+                this.isEdit = true;
+                this.id = this.data6[index].id
+            },
+            remove (index) {
+                // 删除
+                let deleteUserServerData = {'id':this.data6[index].id}
+                 Api.deleteUserServer(deleteUserServerData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '删除成功!');
+                            this.loading = false;
+                            //查询用户列表
+                            this.queryUserServer();
+                            // this.data6.splice(index, 1);
+                        }
+                        });
+            },
+            ok (formName) {
+                let t = this;
+                console.log('formName==',formName)
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    t.loading = true;
+                    let userData = Object.assign({},t.formData,{'type':this.userType});
+                    if(t.isCreat){
+                        // 新增
+                        Api.createUserServer(userData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '创建成功!');
+                            t.loading = false;
+                            //查询用户列表
+                            t.queryUserServer();
+                            this.isCreat = false;
+                        }
+                        });
+                    }else if (t.isEdit){
+                        // 编辑
+                         Object.assign(userData,{'id':t.id});
+                         console.log('updateUserServer',userData)
+                        Api.updateUserServer(userData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '编辑成功!');
+                            t.loading = false;
+                            //查询用户列表
+                            t.queryUserServer();
+                            this.isEdit = false;
+                        }
+                        });
+                    }
+                    
+                } else {
+                    Util.showNotificationBox('error', '表单验证失败!');
+                    return false;
+                }
+                });
+            },
+            cancel () {
+                this.isCreat = false;
+                this.isCreat = false;
+            },
+            creatUser(){
+                this.modal1 = true;
+                this.isCreat = true;
+            },
+            queryUserServer(){
+                //查询用户列表
+            let queryUserData = {
+                'pageNo':this.pageNo,
+                'pageSize':this.pageSize,
+                'type':this.userType
+            }
+            Api.queryUserServer(queryUserData).then(response => {
+               if (response.code == 200) {
+                        this.loading = false;
+                        if(response.dataMap.records.length > 0){
+                            response.dataMap.records.forEach(function(element) {
+                                if(element.type == 1){
+                                    element.type = '管理员'
+                                }else if(element.type == 2){
+                                    element.type = '加盟商家'
+                                }else if(element.type == 3){
+                                   element.type = '供应商'
+                                };
+                                if(element.status == 0){
+                                    element.status = '待审核'
+                                }else if(element.status == 1){
+                                    element.status = '启用'
+                                }else if(element.status == 2){
+                                   element.status = '禁止'
+                                };
+                            }, this);
+                        }
+                        this.data6 = response.dataMap.records;
+                         this.pageNo = response.dataMap.pageNo;
+                         this.totalRecords = response.dataMap.totalRecords;
+                    }
+                });
+            },
+            changePage(current){
+                console.log('changePage',current);
+                this.pageNo = current;
+                this.queryUserServer()
+            },
+            chengeType(data){
+                this.formTitle = data == 1 ? '请填写用户信息' : '请填写商家信息';
+                this.formUserName = data == 1 ? '用户名' : '商家名称';
+
+                this.columns7 = data == 1 ? [
                     {
-                        title: '用户名',
+                        title:'用户名',
                         key: 'account',
                         render: (h, params) => {
                             return h('div', [
@@ -157,124 +280,84 @@
                             ]);
                         }
                     }
-                ],
-                data6: [],
-                isCreat:false,
-                isEdit:false,
-                id:0,
-                totalRecords:0,
-                pageNo:1,
-                pageSize:10,
-            }
-        },
-        methods: {
-            show (index) {
-                console.log(index)
-                this.modal1 = true;
-                this.isEdit = true;
-                this.id = this.data6[index].id
-            },
-            remove (index) {
-                // 删除
-                let deleteUserServerData = {'id':this.data6[index].id}
-                 Api.deleteUserServer(deleteUserServerData).then(response => {
-                        if (response.code == 200) {
-                            Util.showNotificationBox('success', '删除成功!');
-                            this.loading = false;
-                            //查询用户列表
-                            this.queryUserServer();
-                            // this.data6.splice(index, 1);
+                ] : [
+                    {
+                        title:'商家名',
+                        key: 'account',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
+                                    }
+                                }),
+                                h('strong', params.row.account)
+                            ]);
                         }
-                        });
-            },
-            ok (formName) {
-                let t = this;
-                console.log('formName==',formName)
-                this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    t.loading = true;
-                    if(t.isCreat){
-                        // 新增
-                        Api.createUserServer(t.formData).then(response => {
-                        if (response.code == 200) {
-                            Util.showNotificationBox('success', '创建成功!');
-                            t.loading = false;
-                            //查询用户列表
-                            t.queryUserServer();
-                            this.isCreat = false;
+                    },
+                    {
+                        title: '商家类型',
+                        key: 'type'
+                    },
+                    {
+                        title: '商家状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
                         }
-                        });
-                    }else if (t.isEdit){
-                        // 编辑
-                         Object.assign(t.formData,{'id':t.id});
-                         console.log('updateUserServer',t.formData)
-                        Api.updateUserServer(t.formData).then(response => {
-                        if (response.code == 200) {
-                            Util.showNotificationBox('success', '编辑成功!');
-                            t.loading = false;
-                            //查询用户列表
-                            t.queryUserServer();
-                            this.isEdit = false;
-                        }
-                        });
                     }
-                    
-                } else {
-                    Util.showNotificationBox('error', '表单验证失败!');
-                    return false;
-                }
-                });
-            },
-            cancel () {
-                this.isCreat = false;
-                this.isCreat = false;
-            },
-            creatUser(){
-                this.modal1 = true;
-                this.isCreat = true;
-            },
-            queryUserServer(){
-                //查询用户列表
-            let queryUserData = {
-                'pageNo':this.pageNo,
-                'pageSize':this.pageSize
-            }
-            Api.queryUserServer(queryUserData).then(response => {
-               if (response.code == 200) {
-                        this.loading = false;
-                        if(response.dataMap.records.length > 0){
-                            response.dataMap.records.forEach(function(element) {
-                                if(element.type == 1){
-                                    element.type = '管理员'
-                                }else if(element.type == 2){
-                                    element.type = '加盟商家'
-                                }else if(element.type == 3){
-                                   element.type = '供应商'
-                                };
-                                if(element.status == 0){
-                                    element.status = '待审核'
-                                }else if(element.status == 1){
-                                    element.status = '启用'
-                                }else if(element.status == 2){
-                                   element.status = '禁止'
-                                };
-                            }, this);
-                        }
-                        this.data6 = response.dataMap.records;
-                         this.pageNo = response.dataMap.pageNo;
-                         this.totalRecords = response.dataMap.totalRecords;
-                    }
-                });
-            },
-            changePage(current){
-                console.log('changePage',current);
-                this.pageNo = current;
-                this.queryUserServer()
+                ]
+
             }
         },
         created(){
             //查询用户列表
-           this.queryUserServer()
+           this.queryUserServer();
+           //表头切换
+           this.chengeType(this.$route.query.type);
+        },
+        watch:{
+        },
+        beforeRouteUpdate (to, from, next) {
+         //获取用户type
+           this.userType = to.query.type;
+           this.queryUserServer();
+           //表头切换
+           this.chengeType(this.userType);
+           console.log(this.userType);
+           next()
         }
     }
 </script>

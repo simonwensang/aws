@@ -66,7 +66,13 @@
     },
     methods: {
       menuClick(name) {
-        this.$router.push({name: name});
+        if(name == 'user_list'){
+          this.$router.push({name: name, query: { type: 1 }});
+        }else if(name == 'business_management'){
+          this.$router.push({name: 'user_list', query: { type: 2 }});
+        }else{
+          this.$router.push({name: name});
+        }
       },
       setNavInfo(title, activeName, openNames) {
         if (openNames != undefined && openNames != '') {
