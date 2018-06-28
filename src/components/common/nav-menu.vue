@@ -26,7 +26,7 @@
           <Icon type="ios-paper"></Icon>
           统计记录
         </template>
-        <MenuItem name="financeIndex">在线订单</MenuItem>
+        <MenuItem name="order">在线订单</MenuItem>
         <MenuItem name="financeAccountDetail">上酒记录</MenuItem>
         <MenuItem name="financeOrder">出酒记录</MenuItem>
         <MenuItem name="financeOrder1">会员充值</MenuItem>

@@ -27,6 +27,11 @@ export default {
   deleteUserServer(data){
      console.log('deleteUserServer',data);
     return post('/userServer/deleteUserServer/'+data.id+';JSESSIONID='+ Util.getUser());
+  },
+  //订单列表查询
+  queryOrder(data){
+     console.log('queryOrder',data);
+    return post('order/queryOrder;JSESSIONID='+ Util.getUser(),data);
   }
 
 }

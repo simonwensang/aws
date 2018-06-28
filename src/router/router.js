@@ -55,8 +55,8 @@ export const otherRouter = {
     },
 
     {
-      path: 'finance/index', name: 'financeIndex', component: resolve => {
-      require(['@/page/finance/index.vue'], resolve)
+      path: 'finance/order', name: 'order', component: resolve => {
+      require(['@/page/finance/order.vue'], resolve)
     }
     },
     {
