@@ -71,7 +71,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.auditMachine(params.index,1)
+                                            this.bindMachine(params.index,1)
                                         }
                                     }
                                 }, ' 绑定商家'),
@@ -85,7 +85,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.auditMachine(params.index,2)
+                                            this.bindMachine(params.index,2)
                                         }
                                     }
                                 }, ' 解绑商家')
@@ -112,12 +112,12 @@
             console.log(data)
             })
         },
-        auditMachine(index,opt){
+        bindMachine(index,opt){
             let lockMachineData = {
                 'id':this.data[index].id,
                 'opt':opt
             }
-            Api.lockMachine(lockMachineData).then((data) => {
+            Api.bindMachine(lockMachineData).then((data) => {
 
             })
         },
@@ -132,12 +132,12 @@
                 'pageSize':this.pageSize
             };
             Api.queryAuditMachine(queryAuditMachineData).then((data) => {
-                data.dataMap.records.forEach(function(element) {
+                !!data.dataMap.records && data.dataMap.records.forEach(function(element) {
                                     element.createTime = Util.transformTime(element.createTime);
                                     // element.updateTime = Util.transformTime(element.updateTime);
                                 }, this);
                 this.data = data.dataMap.records;
-                this.pageNo = data.dataMap.pageNo;
+                this.pageNo = !!data.dataMap.pageNo ? data.dataMap.pageNo : 1;
                 this.totalRecords = data.dataMap.totalRecords;
             })
         }

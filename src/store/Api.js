@@ -44,9 +44,9 @@ export default {
     return post('machine/lockMachine/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
   },
   //根据ID绑定或者解绑商家和机器
-  auditMachine(data){
-     console.log('auditMachine',data);
-    return post('machine/auditMachine/'+data.id+'opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
+  bindMachine(data){
+     console.log('bindMachine',data);
+    return post('machine/bindMachine/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
   }
 
 }
