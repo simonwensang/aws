@@ -17,6 +17,11 @@ export const otherRouter = {
       require(['@/page/system/user_list/index.vue'], resolve)
     }
     },
+   {
+      path: 'system/wine_management', name: 'wine_management', component: resolve => {
+      require(['@/page/system/wine_management/index.vue'], resolve)
+    }
+    },
     {
       path: 'user/safe', name: 'userSafe', component: resolve => {
       require(['@/page/user/safe/index.vue'], resolve)

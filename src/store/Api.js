@@ -32,6 +32,21 @@ export default {
   queryOrder(data){
      console.log('queryOrder',data);
     return post('order/queryOrder;JSESSIONID='+ Util.getUser(),data);
+  },
+   //酒机列表查询
+  queryAuditMachine(data){
+     console.log('queryAuditMachine',data);
+    return post('machine/queryAuditMachine;JSESSIONID='+ Util.getUser(),data);
+  },
+   //根据ID停用或者启用机器
+  lockMachine(data){
+     console.log('lockMachine',data);
+    return post('machine/lockMachine/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
+  },
+  //根据ID绑定或者解绑商家和机器
+  auditMachine(data){
+     console.log('auditMachine',data);
+    return post('machine/auditMachine/'+data.id+'opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
   }
 
 }

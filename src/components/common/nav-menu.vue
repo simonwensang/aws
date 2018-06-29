@@ -49,6 +49,15 @@
         <MenuItem name="business_management">商家管理</MenuItem> 
         <MenuItem name="wine_management">酒机管理</MenuItem> 
       </Submenu>
+      <Submenu name="operation">
+        <template slot="title">
+          <Icon type="person"></Icon>
+          运营菜单
+        </template>
+         <MenuItem name="factory_management">厂家管理</MenuItem>
+        <MenuItem name="brand_management">品牌管理</MenuItem> 
+        <MenuItem name="shop_management">商品管理</MenuItem> 
+      </Submenu>
     </Menu>
   </div>
 
