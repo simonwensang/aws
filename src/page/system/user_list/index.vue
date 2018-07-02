@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button type="primary" @click="creatUser">{{userType == 1 ? '新增用户' : '新增商家'}}</Button>
+        <Button type="primary" @click="creatUser">{{userType == 1 ? '新增用户' : (userType == 2 ? '新增商家' : '新增厂家')}}</Button>
         <Modal
             v-model="modal1"
             :title="formTitle"
@@ -189,7 +189,7 @@
             Api.queryUserServer(queryUserData).then(response => {
                if (response.code == 200) {
                         this.loading = false;
-                        if(response.dataMap.records.length > 0){
+                        if(!!response.dataMap.records && response.dataMap.records.length > 0){
                             response.dataMap.records.forEach(function(element) {
                                 if(element.type == 1){
                                     element.type = '管理员'
@@ -207,8 +207,8 @@
                                 };
                             }, this);
                         }
-                        this.data6 = response.dataMap.records;
-                         this.pageNo = response.dataMap.pageNo;
+                        this.data6 = !!response.dataMap.records ? response.dataMap.records : [];
+                         this.pageNo = !!response.dataMap.pageNo ? response.dataMap.pageNo : 1;
                          this.totalRecords = response.dataMap.totalRecords;
                     }
                 });
@@ -219,8 +219,9 @@
                 this.queryUserServer()
             },
             chengeType(data){
-                this.formTitle = data == 1 ? '请填写用户信息' : '请填写商家信息';
-                this.formUserName = data == 1 ? '用户名' : '商家名称';
+                console.log('chengeType',data)
+                this.formTitle = data == 1 ? '请填写用户信息' : (data == 2 ? '请填写商家信息': '请填写厂家信息');
+                this.formUserName = data == 1 ? '用户名' : (data == 2 ? '商家名称' : '厂家名称');
 
                 this.columns7 = data == 1 ? [
                     {
@@ -280,7 +281,7 @@
                             ]);
                         }
                     }
-                ] : [
+                ] : (data == 2 ? [
                     {
                         title:'商家名',
                         key: 'account',
@@ -338,7 +339,65 @@
                             ]);
                         }
                     }
-                ]
+                ] : [
+                    {
+                        title:'厂家名',
+                        key: 'account',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
+                                    }
+                                }),
+                                h('strong', params.row.account)
+                            ]);
+                        }
+                    },
+                    {
+                        title: '厂家类型',
+                        key: 'type'
+                    },
+                    {
+                        title: '厂家状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
+                    }
+                ])
 
             }
         },

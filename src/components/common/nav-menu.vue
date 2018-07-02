@@ -79,6 +79,8 @@
           this.$router.push({name: name, query: { type: 1 }});
         }else if(name == 'business_management'){
           this.$router.push({name: 'user_list', query: { type: 2 }});
+        }else if(name == 'factory_management'){
+          this.$router.push({name: 'user_list', query: { type: 3 }});
         }else{
           this.$router.push({name: name});
         }
