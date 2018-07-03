@@ -19,6 +19,7 @@
 <script>
   import Api from "../../../store/Api";
   import Util from '../../../util/util';
+  import Store from "../../../store/index";
     export default {
         data () {
             const validateMobile = (rule, value, callback) => {
@@ -255,6 +256,7 @@
            this.queryBrand();
            //表头切换
         //    this.chengeType(this.$route.query.type);
+        Store.commit('changeTitle','品牌管理列表')
         }
     }
 </script>

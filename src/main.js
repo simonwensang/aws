@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue';
 import {post, get} from "./store/action";
+import store from "./store/index";
 import router from './router';
 import iView from 'iview';
 import '../theme/index.less';
@@ -23,6 +24,7 @@ Vue.directive('title', {
 new Vue({
   el: '#app',
   router: router,
+  store,
   template: '<App/>',
   components: { App }
 })

@@ -1,5 +1,11 @@
 <template>
     <div>
+         <i-button type="ghost" style="margin-bottom:10px" v-show="hasFactory"><router-link to="/system/user_list?type=3">返回</router-link></i-button>
+         <Card v-show="hasFactory">
+                <p slot="title">厂家详情</p>
+                <p>厂家名称: {{factoryAccount}}</p>
+                <p>创建日期: {{factoryCreateTime}} </p>
+            </Card>
         <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增产品</Button>
         <Modal
             v-model="modal1"
@@ -15,7 +21,7 @@
                         <Option v-for="item in brandList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="厂家名称:" prop="factoryId">
+                <FormItem v-show="!hasFactory" label="厂家名称:" prop="factoryId">
                     <Select v-model="formData.factoryId" style="width:300px">
                         <Option v-for="item in factoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
@@ -34,6 +40,7 @@
 </template>
 <script>
   import Api from "../../../store/Api";
+  import Store from "../../../store/index";
   import Util from '../../../util/util';
     export default {
         data () {
@@ -86,6 +93,9 @@
       };
             return {
                 brandList:[],
+                factoryAccount:'',
+                factoryCreateTime:'',
+                hasFactory:false,
                 factoryList:[],
                  formData: {
                     brandId: '',
@@ -235,6 +245,7 @@
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
                     t.loading = true;
+                    this.hasFactory ? t.formData.factoryId = t.$route.query.factoryId : '';
                     let userData = Object.assign({},t.formData);
                     if(t.isCreat){
                         // 新增
@@ -278,10 +289,14 @@
             },
             queryBrand(){
                 //查询用户列表
-            let queryUserData = {
+            let queryUserData =  !!this.$route.query.factoryId ? {
                 'pageNo':this.pageNo,
-                'pageSize':this.pageSize
-            }
+                'pageSize':this.pageSize,
+                'factoryId':this.$route.query.factoryId
+            } : {
+                'pageNo':this.pageNo,
+                'pageSize':this.pageSize,
+            } 
             Api.queryProduct(queryUserData).then(response => {
                if (response.code == 200) {
                         this.loading = false;
@@ -347,6 +362,14 @@
                     t.factoryList.push({value:item.id,label:item.account})
                 })
         });
+        let title = !!this.$route.query.factoryId ? '厂家详情页' : '产品管理列表'; 
+        Store.commit('changeTitle',title);
+         !!this.$route.query.factoryId ? Api.getUserServer(this.$route.query.factoryId).then((data) => {
+            console.log('getProduct',data);
+            this.factoryAccount = data.dataMap.account;
+            this.factoryCreateTime =  Util.transformTime(data.dataMap.createTime);
+            this.hasFactory = true
+        }) : '';
         }
     }
 </script>

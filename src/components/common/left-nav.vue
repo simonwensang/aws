@@ -72,7 +72,7 @@
       <Col :span="spanRight" style="width: calc(100% - 200px);">
       <div class="layout-breadcrumb">
         <Breadcrumb class="fl">
-          <BreadcrumbItem>{{title}}</BreadcrumbItem>
+          <BreadcrumbItem>{{changeTitle}}</BreadcrumbItem>
         </Breadcrumb>
         <div style="position: absolute;right: 10px;top: 8px;">
           <div class="fl mr20">
@@ -129,15 +129,21 @@
         data: null,
         activeName: null,
         openNames: [],
-        title: '酒机后台管理系统',
+        title: '酒机后台系统',
         spanLeft: 4,
         spanRight: 19
       }
     },
     created(){
       // this.getMenuList();
-      this.getUserInfo();
+      // this.getUserInfo();
+      console.log('this.$store.state.count',this.$store)
     },
+    computed: {
+    changeTitle () {
+      return this.$store.state.title
+    }
+  },
     methods: {
       setNavInfo(title, activeName, openNames) {
         this.$refs.navMenuObj.setNavInfo(title, activeName, openNames);

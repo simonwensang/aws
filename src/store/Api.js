@@ -124,4 +124,9 @@ export default {
      console.log('getSku',data);
     return get('/sku/getSku/'+data+';JSESSIONID='+ Util.getUser());
   },
+   //根据id获取厂家详情
+  getUserServer(data){
+     console.log('getUserServer',data);
+    return get('/userServer/getUserServer/'+data+';JSESSIONID='+ Util.getUser());
+  },
 }

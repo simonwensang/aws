@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button type="primary" @click="creatUser">{{userType == 1 ? '新增用户' : (userType == 2 ? '新增商家' : '新增厂家')}}</Button>
+        <Button type="primary" @click="creatUser" style="margin-bottom:10px">{{userType == 1 ? '新增用户' : (userType == 2 ? '新增商家' : '新增厂家')}}</Button>
         <Modal
             v-model="modal1"
             :title="formTitle"
@@ -28,6 +28,7 @@
 <script>
   import Api from "../../../store/Api";
   import Util from '../../../util/util';
+  import Store from "../../../store/index";
     export default {
         data () {
             const validateMobile = (rule, value, callback) => {
@@ -113,6 +114,11 @@
             }
         },
         methods: {
+            toProduct(index){
+            //到详情页
+            let factoryId = this.data6[index].id;
+            this.$router.push({name: 'product_management', query: { factoryId: factoryId}});
+            },
             show (index) {
                 console.log(index)
                 this.modal1 = true;
@@ -179,12 +185,12 @@
                 this.modal1 = true;
                 this.isCreat = true;
             },
-            queryUserServer(){
+            queryUserServer(type){
                 //查询用户列表
             let queryUserData = {
                 'pageNo':this.pageNo,
                 'pageSize':this.pageSize,
-                'type':this.userType
+                'type':!!type ? type : this.userType
             }
             Api.queryUserServer(queryUserData).then(response => {
                if (response.code == 200) {
@@ -365,10 +371,24 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.toProduct(params.index)
+                                        }
+                                    }
+                                }, '查看'),
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -403,9 +423,12 @@
         },
         created(){
             //查询用户列表
-           this.queryUserServer();
+           this.queryUserServer(this.$route.query.type);
            //表头切换
            this.chengeType(this.$route.query.type);
+           this.userType = this.$route.query.type;
+           let title = this.userType == 1 ? '管理员用户列表' : (this.userType == 2 ? '商家用户列表' : '厂家列表');
+           Store.commit('changeTitle',title)
         },
         watch:{
         },
@@ -416,6 +439,8 @@
            //表头切换
            this.chengeType(this.userType);
            console.log(this.userType);
+           let title = this.userType == 1 ? '管理员用户列表' : (this.userType == 2 ? '商家用户列表' : '厂家列表');
+           Store.commit('changeTitle',title)
            next()
         }
     }

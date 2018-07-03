@@ -43,6 +43,7 @@
 <script>
   import Api from "../../../store/Api";
   import Util from '../../../util/util';
+   import Store from "../../../store/index";
     export default {
         data () {
             const validateMobile = (rule, value, callback) => {
@@ -326,6 +327,7 @@
             }
         },
         created(){
+            Store.commit('changeTitle','产品详情页')
             //查询用户列表
            this.queryBrand();
            this.productId = this.$route.query.productId;
