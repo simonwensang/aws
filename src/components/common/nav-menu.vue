@@ -56,7 +56,7 @@
         </template>
          <MenuItem name="factory_management">厂家管理</MenuItem>
         <MenuItem name="brand_management">品牌管理</MenuItem> 
-        <MenuItem name="shop_management">商品管理</MenuItem> 
+        <MenuItem name="product_management">商品管理</MenuItem> 
       </Submenu>
     </Menu>
   </div>

@@ -17,9 +17,24 @@ export const otherRouter = {
       require(['@/page/system/user_list/index.vue'], resolve)
     }
     },
-   {
+    {
       path: 'system/wine_management', name: 'wine_management', component: resolve => {
       require(['@/page/system/wine_management/index.vue'], resolve)
+    }
+    },
+    {
+      path: 'operation/brand_management', name: 'brand_management', component: resolve => {
+      require(['@/page/operation/brand_management/index.vue'], resolve)
+    }
+    },
+   {
+      path: 'operation/product_management', name: 'product_management', component: resolve => {
+      require(['@/page/operation/product_management/index.vue'], resolve)
+    }
+    },
+   {
+      path: 'operation/sku_management', name: 'sku_management', component: resolve => {
+      require(['@/page/operation/sku_management/index.vue'], resolve)
     }
     },
     {

@@ -32,9 +32,16 @@ function checkStatus (response) {
 
 function checkError (error) {
   console.log('error',error)
-  Notice.error({
-    title: '服务器开小差了，请重新登录！'
-  });
+  if(!!error.response && (error.response.status == 404 || error.response.status == 404 >= 500)){
+    Notice.error({
+      title: error.message
+    });
+  }else{
+     Notice.error({
+      title: '服务器开小差了，请重新登录！'
+    });
+    router.push({name:'login'})
+  }
 }
 
 export function get(url, params) {
