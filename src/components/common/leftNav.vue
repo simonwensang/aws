@@ -84,7 +84,7 @@
     },
     created(){
       // this.getMenuList();
-      this.getUserInfo();
+      // this.getUserInfo();
     },
     methods: {
       setNavInfo(title, activeName, openNames) {

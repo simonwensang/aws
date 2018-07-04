@@ -67,7 +67,7 @@
     },
     created() {
       this.$emit('setNavInfo', '域名注册', 'domainList', 'domain');
-      this.getInfo();
+      // this.getInfo();
     },
     methods: {
       getInfo() {

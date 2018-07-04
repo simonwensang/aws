@@ -138,7 +138,7 @@
     },
     mounted(){
       this.$emit('setNavInfo', '酒机后台管理系统', 'console', 'console');
-      this.getInfo();
+      // this.getInfo();
     },
     methods: {
       getInfo() {

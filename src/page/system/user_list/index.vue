@@ -430,8 +430,6 @@
            let title = this.userType == 1 ? '管理员用户列表' : (this.userType == 2 ? '商家用户列表' : '厂家列表');
            Store.commit('changeTitle',title)
         },
-        watch:{
-        },
         beforeRouteUpdate (to, from, next) {
          //获取用户type
            this.userType = to.query.type;

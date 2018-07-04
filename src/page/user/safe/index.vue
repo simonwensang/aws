@@ -170,7 +170,7 @@
     },
     created(){
       this.$emit('setNavInfo', '安全设置', 'userSafe', 'user');
-      this.getInfo();
+      // this.getInfo();
     },
     methods: {
       getInfo() {

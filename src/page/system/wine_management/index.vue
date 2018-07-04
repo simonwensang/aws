@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Table border :columns="columnsList" :data="data"></Table>
+  <Table border :columns="columnsList" :data="dataTable"></Table>
   <Page :total="totalRecords" show-total :current="pageNo" @on-change='changePage'></Page>
 </div>
 </template>
@@ -92,7 +92,7 @@
                             ]);
                         }
                     }],
-            data:[],
+            dataTable:[],
             totalRecords:0,
             pageNo:1,
             pageSize:10,
@@ -136,7 +136,7 @@
                                     element.createTime = Util.transformTime(element.createTime);
                                     // element.updateTime = Util.transformTime(element.updateTime);
                                 }, this);
-                this.data = data.dataMap.records;
+                this.dataTable = data.dataMap.records;
                 this.pageNo = !!data.dataMap.pageNo ? data.dataMap.pageNo : 1;
                 this.totalRecords = data.dataMap.totalRecords;
             })

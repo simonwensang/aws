@@ -10,7 +10,7 @@
         <Icon type="ios-navigate" :size="14"></Icon>
         <span class="layout-text">酒机后台管理系统</span>
       </MenuItem>
-      <Submenu name="domain">
+      <!-- <Submenu name="domain">
         <template slot="title">
           <Icon type="navicon"></Icon>
           基础数据
@@ -20,17 +20,17 @@
         <MenuItem name="domainInfo">酒品管理</MenuItem>
         <MenuItem name="domainInfo1">会员管理</MenuItem>
         <MenuItem name="domainInfo2">磁卡管理</MenuItem>
-      </Submenu>
+      </Submenu> -->
       <Submenu name="finance">
         <template slot="title">
           <Icon type="ios-paper"></Icon>
           统计记录
         </template>
         <MenuItem name="order">在线订单</MenuItem>
-        <MenuItem name="financeAccountDetail">上酒记录</MenuItem>
+        <!-- <MenuItem name="financeAccountDetail">上酒记录</MenuItem>
         <MenuItem name="financeOrder">出酒记录</MenuItem>
         <MenuItem name="financeOrder1">会员充值</MenuItem>
-        <MenuItem name="financeOrder2">会员消费</MenuItem>
+        <MenuItem name="financeOrder2">会员消费</MenuItem> -->
       </Submenu>
       <!-- <Submenu name="user">
         <template slot="title">
