@@ -38,6 +38,11 @@ export default {
      console.log('queryAuditMachine',data);
     return post('machine/queryAuditMachine;JSESSIONID='+ Util.getUser(),data);
   },
+    //酒机列表查询
+  queryMachine(data){
+     console.log('queryMachine',data);
+    return post('machine/queryMachine;JSESSIONID='+ Util.getUser(),data);
+  },
    //根据ID停用或者启用机器
   lockMachine(data){
      console.log('lockMachine',data);
@@ -128,5 +133,15 @@ export default {
   getUserServer(data){
      console.log('getUserServer',data);
     return get('/userServer/getUserServer/'+data+';JSESSIONID='+ Util.getUser());
+  },
+   //查询商户列表
+  querySeller(data){
+     console.log('querySeller',data);
+    return post('/userServer/querySeller;JSESSIONID='+ Util.getUser(),data);
+  },
+  //根据ID停用或者启用机器
+  auditUser(data){
+     console.log('auditUser',data);
+    return post('/userServer/auditUser/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser());
   },
 }

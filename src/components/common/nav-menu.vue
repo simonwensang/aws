@@ -47,7 +47,25 @@
         </template>
          <MenuItem name="user_list">管理员用户列表</MenuItem>
         <MenuItem name="business_management">商家管理</MenuItem> 
-        <MenuItem name="wine_management">酒机管理</MenuItem> 
+        <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
+      </Submenu>
+      <Submenu name="wine">
+        <template slot="title">
+          <Icon type="person"></Icon>
+          酒机管理
+        </template>
+         <!-- <MenuItem name="user_list">酒机列表</MenuItem> -->
+        <MenuItem name="wine_management">酒机列表</MenuItem> 
+        <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
+      </Submenu>
+        <Submenu name="shop">
+        <template slot="title">
+          <Icon type="person"></Icon>
+          商家管理
+        </template>
+         <MenuItem name="shop_management">商家列表</MenuItem>
+        <!-- <MenuItem name="business_management">商户申请酒机列表</MenuItem>  -->
+        <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
       </Submenu>
       <Submenu name="operation">
         <template slot="title">

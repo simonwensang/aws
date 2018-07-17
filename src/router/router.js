@@ -18,8 +18,13 @@ export const otherRouter = {
     }
     },
     {
-      path: 'system/wine_management', name: 'wine_management', component: resolve => {
-      require(['@/page/system/wine_management/index.vue'], resolve)
+      path: 'wine/wine_management', name: 'wine_management', component: resolve => {
+      require(['@/page/wine/wine_management/index.vue'], resolve)
+    }
+    },
+   {
+      path: 'shop/shop_management', name: 'shop_management', component: resolve => {
+      require(['@/page/shop/shop_management/index.vue'], resolve)
     }
     },
     {
