@@ -46,7 +46,7 @@
           系统管理
         </template>
          <MenuItem name="user_list">管理员用户列表</MenuItem>
-        <MenuItem name="business_management">商家管理</MenuItem> 
+        <!-- <MenuItem name="business_management">商家管理</MenuItem>  -->
         <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
       </Submenu>
       <Submenu name="wine">

@@ -1,36 +1,24 @@
 <template>
     <div>
-         <i-button type="ghost" style="margin-bottom:10px" v-show="hasFactory"><router-link to="/system/user_list?type=3">返回</router-link></i-button>
-         <Card v-show="hasFactory">
-                <p slot="title">商家详情</p>
-                <p>商家名称: {{factoryAccount}}</p>
-                <p>创建日期: {{factoryCreateTime}} </p>
-            </Card>
+        <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增商家</Button>
         <!-- <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增产品</Button> -->
         <Modal
             v-model="modal1"
             :title="formTitle"
             @on-ok="ok('validateForm')"
             @on-cancel="cancel">
-            <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
-                <FormItem label="产品名：" prop="productName">
-                    <Input v-model="formData.productName" style="width:300px;" :maxlength="11"></Input>
+             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
+                <FormItem :label="formUserName" prop="account">
+                    <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
-                <FormItem label="酒品牌名称:" prop="brandId">
-                    <Select v-model="formData.brandId" style="width:300px">
-                        <Option v-for="item in brandList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                <FormItem label="手机号码：" prop="mobile">
+                    <Input v-model="formData.mobile" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem v-show="!hasFactory" label="厂家名称:" prop="factoryId">
-                    <Select v-model="formData.factoryId" style="width:300px">
-                        <Option v-for="item in factoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                <FormItem label="密码：" prop="password">
+                    <Input v-model="formData.password" type="password" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
-                <FormItem label="销售单价(毫升) ：" prop="salePrice">
-                    <Input v-model="formData.salePrice" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
-                 <FormItem label="进价单价(毫升) ：" prop="buyPrice">
-                    <Input v-model="formData.buyPrice" style="width:300px;" :maxlength="11"></Input>
+                <FormItem label="确认密码：" prop="checkPwd">
+                    <Input v-model="formData.checkPwd" type="password" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -97,16 +85,15 @@
                 factoryCreateTime:'',
                 hasFactory:false,
                 factoryList:[],
-                 formData: {
-                    brandId: '',
-                    productName:'',
-                    factoryId: '',
-                    salePrice:'',
-                    buyPrice:''
+                  formData: {
+                    mobile: '',
+                    account: '',
+                    password: '',
+                    checkPwd: '',
                 },
                 ruleCustom: {
-                brandName: [
-                    {  trigger: 'blur' }
+                mobile: [
+                    { validator: validateMobile, trigger: 'blur' }
                 ],
                 account: [
                     { validator: validateAccount, trigger: 'blur' }
@@ -145,7 +132,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 200,
+                        width: 230,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -182,12 +169,29 @@
                                         type: 'error',
                                         size: 'small'
                                     },
+                                     style: {
+                                        marginRight: '5px'
+                                    },
                                     on: {
                                         click: () => {
                                             this.remove(params.index,2)
                                         }
                                     }
-                                }, '禁用')
+                                }, '禁用'),
+                                 h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.shopDetail(params.index)
+                                        }
+                                    }
+                                }, '查看'),
                             ]);
                         }
                     }
@@ -200,7 +204,7 @@
                 pageNo:1,
                 pageSize:10,
                 userType:1,
-                formTitle:'请填写用户信息',
+                formTitle:'请填写商家信息',
                 formUserName:'用户名'
             }
         },
@@ -211,10 +215,10 @@
                 this.isEdit = true;
                 this.id = this.data6[index].id
             },
-            toSku(index){
+            shopDetail(index){
             //到详情页
-            let productId = this.data6[index].id,brandId = this.data6[index].brandId;
-            this.$router.push({name: 'sku_management', query: { productId: productId ,brandId:brandId}});
+            let shopId = this.data6[index].id,brandId = this.data6[index].brandId;
+            this.$router.push({name: 'shop_detail', query: { shopId: shopId}});
             },
             remove (index,opt) {
                 // 删除
@@ -235,33 +239,35 @@
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
                     t.loading = true;
-                    this.hasFactory ? t.formData.factoryId = t.$route.query.factoryId : '';
-                    let userData = Object.assign({},t.formData);
+                    let userData = Object.assign({},t.formData,{'type':2});
                     if(t.isCreat){
                         // 新增
-                        Api.createProduct(userData).then(response => {
+                        
+                        Api.createUserServer(userData).then(response => {
                         if (response.code == 200) {
                             Util.showNotificationBox('success', '创建成功!');
                             t.loading = false;
                             //查询用户列表
                             t.queryBrand();
-                            this.isCreat = false;
+                            
                         }
                         });
                     }else if (t.isEdit){
                         // 编辑
                          Object.assign(userData,{'id':t.id});
                          console.log('updateUserServer',userData)
-                        Api.updateProduct(userData).then(response => {
+                        Api.updateUserServer(userData).then(response => {
                         if (response.code == 200) {
                             Util.showNotificationBox('success', '编辑成功!');
                             t.loading = false;
                             //查询用户列表
                             t.queryBrand();
-                            this.isEdit = false;
+                           
                         }
                         });
                     }
+                     this.isEdit = false;
+                     this.isCreat = false;
                     
                 } else {
                     Util.showNotificationBox('error', '表单验证失败!');
@@ -271,7 +277,7 @@
             },
             cancel () {
                 this.isCreat = false;
-                this.isCreat = false;
+                this.isEdit = false;
             },
             creatUser(){
                 this.modal1 = true;
@@ -351,8 +357,8 @@
                 })
         });
         */
-        let title = !!this.$route.query.factoryId ? '厂家详情页' : '产品管理列表'; 
-        Store.commit('changeTitle',title);
+        // let title = !!this.$route.query.factoryId ? '厂家详情页' : '产品管理列表'; 
+        Store.commit('changeTitle','商家列表');
          !!this.$route.query.factoryId ? Api.getUserServer(this.$route.query.factoryId).then((data) => {
             console.log('getProduct',data);
             this.factoryAccount = data.dataMap.account;

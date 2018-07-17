@@ -7,6 +7,7 @@
 <script>
   import Api from "../../../store/Api";
   import Util from '../../../util/util';
+    import Store from "../../../store/index";
   export default{
     data(){
         return{
@@ -100,7 +101,8 @@
     },
     created(){
         //查询酒机列表
-        this.queryAuditMachine()
+        this.queryAuditMachine();
+         Store.commit('changeTitle','酒机列表')
     },
     methods:{
         lockMachine(index,opt){

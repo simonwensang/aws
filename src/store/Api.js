@@ -144,4 +144,14 @@ export default {
      console.log('auditUser',data);
     return post('/userServer/auditUser/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser());
   },
+  //根据ID获取商户信息
+  getSellerDetail(data){
+     console.log('getSellerDetail',data);
+    return get('/userServer/getSellerDetail/'+data+';JSESSIONID='+ Util.getUser());
+  },
+  //根据ID获取资金明细
+  querySellerAccountLog(data){
+     console.log('querySellerAccountLog',data);
+    return post('/sellerAccountLog/querySellerAccountLog;JSESSIONID='+ Util.getUser(),data);
+  },
 }

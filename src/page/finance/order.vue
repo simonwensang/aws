@@ -77,8 +77,12 @@
                         width: 160,
                     },
                     {
-                        title: '商品名',
+                        title: '商品id',
                         key: 'productId'
+                    },
+                    {
+                        title: '商家名称',
+                        key: 'sellerName'
                     },
                     {
                         title: '机器码',
