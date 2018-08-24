@@ -135,7 +135,7 @@
                         width: 230,
                         align: 'center',
                         render: (h, params) => {
-                            return h('div', [
+                            let renderList = [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -150,34 +150,6 @@
                                         }
                                     }
                                 }, '编辑'),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index,1)
-                                        }
-                                    }
-                                }, '启用'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                     style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index,2)
-                                        }
-                                    }
-                                }, '禁用'),
                                  h('Button', {
                                     props: {
                                         type: 'primary',
@@ -192,7 +164,35 @@
                                         }
                                     }
                                 }, '查看'),
-                            ]);
+                            ];
+                            params.row.status == '启用' ? renderList.push( h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index,2)
+                                        }
+                                    }
+                                },  '禁用')) : renderList.push( h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index,1)
+                                        }
+                                    }
+                                },  '启用'));
+                            return h('div',renderList );
                         }
                     }
                 ],

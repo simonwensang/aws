@@ -5,8 +5,8 @@
 <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="80">
     <Row>
         <Col span="11">
-        <FormItem prop="shopName" label="商家名称">
-            <Input type="text" v-model="formInline.shopName" placeholder="请输入商家名称">
+        <FormItem prop="sellerNameLike " label="商家名称">
+            <Input type="text" v-model="formInline.sellerNameLike " placeholder="请输入商家名称">
             </Input>
         </FormItem>
         </Col>
@@ -54,13 +54,13 @@
         data () {
             return {
                   formInline: {
-                    shopName: '',
+                    sellerNameLike : '',
                     machineCode: '',
                     orderTime:'',
                     status:''
                 },
                 ruleInline: {
-                    // shopName: [
+                    // sellerNameLike : [
                     //     { required: true, message: 'Please fill in the user name', trigger: 'blur' }
                     // ],
                     // password: [
@@ -138,7 +138,7 @@
                         this.formInline.createTimeTo = this.formInline.orderTime[1];
                         for(let key in this.formInline){
                             // console.log('this.formInline.'+key,this.formInline[key]);
-                            // console.log('this.formInline.shopName',this.formInline.shopName)
+                            // console.log('this.formInline.sellerNameLike ',this.formInline.sellerNameLike )
                             if( key != 'orderTime'){
                                Object.assign(this.convertFromData,{[key]:this.formInline[key]});
                             }
@@ -164,7 +164,7 @@
             },this.convertFromData);
 
             Api.queryOrder(queryOrderData).then((data) => {
-                  data.dataMap.records.forEach(function(element) {
+                !!data.dataMap.records && data.dataMap.records.forEach(function(element) {
                                 if(element.status == 0){
                                     element.status = '初始'
                                 }else if(element.status == 1){

@@ -29,13 +29,21 @@
                         key: 'createTime'
                     },
                     {
+                        title: '是否营业',
+                        key: 'isLockedSale'
+                    },
+                    {
+                        title: '绑定状态',
+                        key: 'bindStatus'
+                    },
+                    {
                         title: '操作',
                         key: 'action',
-                        width: 300,
+                        width: 180,
                         align: 'center',
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
+                            let renderList = [];
+                            params.row.isLockedSale == '停业' ? renderList.push(h('Button', {
                                     props: {
                                         type: 'primary',
                                         size: 'small'
@@ -48,8 +56,7 @@
                                             this.lockMachine(params.index,0)
                                         }
                                     }
-                                }, '营业'),
-                                h('Button', {
+                                }, '营业')) : renderList.push(h('Button', {
                                     props: {
                                         type: 'error',
                                         size: 'small'
@@ -62,22 +69,8 @@
                                             this.lockMachine(params.index,1)
                                         }
                                     }
-                                }, '停业'),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.bindMachine(params.index,1)
-                                        }
-                                    }
-                                }, ' 绑定商家'),
-                                 h('Button', {
+                                }, '停业'));
+                                params.row.bindStatus == '已绑定' ? renderList.push(h('Button', {
                                     props: {
                                         type: 'error',
                                         size: 'small'
@@ -90,8 +83,24 @@
                                             this.bindMachine(params.index,2)
                                         }
                                     }
-                                }, ' 解绑商家')
-                            ]);
+                                }, ' 解绑商家')) : renderList.push(h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.bindMachine(params.index,1)
+                                        }
+                                    }
+                                }, ' 绑定商家'));
+
+
+                            return h('div', renderList);
+
                         }
                     }],
             dataTable:[],
@@ -116,6 +125,7 @@
                Notice.success({
                      title: '操作成功'
                });
+               this.queryAuditMachine()
             })
         },
         bindMachine(index,opt){
@@ -127,6 +137,7 @@
                  Notice.success({
                      title: '操作成功'
                });
+               this.queryAuditMachine()
             })
         },
         changePage(current){
@@ -143,6 +154,21 @@
                 !!data.dataMap.records && data.dataMap.records.forEach(function(element) {
                                     element.createTime = Util.transformTime(element.createTime);
                                     // element.updateTime = Util.transformTime(element.updateTime);
+                                    console.log(element.isLockedSale)
+                                if(element.isLockedSale == 0){
+                                    element.isLockedSale = '售卖'
+                                }else if(element.isLockedSale == 1){
+                                    element.isLockedSale = '停业'
+                                };
+
+                                 if(element.bindStatus == 0){
+                                    element.bindStatus = '未绑定'
+                                }else if(element.bindStatus == 1){
+                                    element.bindStatus = '申请绑定'
+                                }else if(element.bindStatus == 2){
+                                    element.bindStatus = '已绑定'
+                                };
+
                                 }, this);
                 this.dataTable = data.dataMap.records;
                 this.pageNo = !!data.dataMap.pageNo ? data.dataMap.pageNo : 1;

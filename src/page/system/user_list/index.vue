@@ -125,12 +125,25 @@
                 this.isEdit = true;
                 this.id = this.data6[index].id
             },
-            remove (index) {
+            // remove (index) {
+            //     // 删除
+            //     let deleteUserServerData = {'id':this.data6[index].id}
+            //      Api.deleteUserServer(deleteUserServerData).then(response => {
+            //             if (response.code == 200) {
+            //                 Util.showNotificationBox('success', '删除成功!');
+            //                 this.loading = false;
+            //                 //查询用户列表
+            //                 this.queryUserServer();
+            //                 // this.data6.splice(index, 1);
+            //             }
+            //             });
+            // },
+            remove (index,opt) {
                 // 删除
-                let deleteUserServerData = {'id':this.data6[index].id}
-                 Api.deleteUserServer(deleteUserServerData).then(response => {
+                let deleteUserServerData = {'id':this.data6[index].id,'opt':opt}
+                 Api.auditUser(deleteUserServerData).then(response => {
                         if (response.code == 200) {
-                            Util.showNotificationBox('success', '删除成功!');
+                            Util.showNotificationBox('success', '操作成功!');
                             this.loading = false;
                             //查询用户列表
                             this.queryUserServer();
@@ -255,10 +268,10 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
-                            return h('div', [
+                            let renderList = [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -272,19 +285,37 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '编辑'),
-                                h('Button', {
+                                }, '编辑')
+                            ];
+                            console.log('params.status',params.status)
+                            params.row.status == '启用' ? renderList.push( h('Button', {
                                     props: {
                                         type: 'error',
                                         size: 'small'
                                     },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
                                     on: {
                                         click: () => {
-                                            this.remove(params.index)
+                                            this.remove(params.index,2)
                                         }
                                     }
-                                }, '删除')
-                            ]);
+                                },  '禁用')) : renderList.push( h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index,1)
+                                        }
+                                    }
+                                },  '启用'));
+                            return h('div', renderList);
                         }
                     }
                 ] : (data == 2 ? [

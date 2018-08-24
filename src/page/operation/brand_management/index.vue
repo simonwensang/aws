@@ -223,6 +223,7 @@
                         this.loading = false;
                         if(!!response.dataMap.records && response.dataMap.records.length > 0){
                             response.dataMap.records.forEach(function(element) {
+                                element.createTime = Util.transformTime(element.createTime);
                                 if(element.type == 1){
                                     element.type = '管理员'
                                 }else if(element.type == 2){
