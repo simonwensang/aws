@@ -55,7 +55,8 @@
           酒机管理
         </template>
          <!-- <MenuItem name="user_list">酒机列表</MenuItem> -->
-        <MenuItem name="wine_management">酒机列表</MenuItem> 
+        <MenuItem name="wine_management">酒机列表</MenuItem>
+        <MenuItem name="wine_management_audit">酒机审核列表</MenuItem> 
         <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
       </Submenu>
         <Submenu name="shop">

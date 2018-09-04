@@ -36,12 +36,14 @@
         </Modal>
         <Table border :columns="columns7" :data="data6"></Table>
         <Page :total="totalRecords" show-total :current="pageNo" @on-change='changePage'></Page>
+        <UploadAssembly></UploadAssembly>
     </div>
 </template>
 <script>
   import Api from "../../../store/Api";
   import Store from "../../../store/index";
   import Util from '../../../util/util';
+  import Upload from '../../../components/common/upload.vue'
     export default {
         data () {
             const validateMobile = (rule, value, callback) => {
@@ -210,7 +212,7 @@
                 pageNo:1,
                 pageSize:10,
                 userType:1,
-                formTitle:'请填写用户信息',
+                formTitle:'请填写产品信息',
                 formUserName:'用户名'
             }
         },
@@ -370,6 +372,9 @@
             this.factoryCreateTime =  Util.transformTime(data.dataMap.createTime);
             this.hasFactory = true
         }) : '';
-        }
+        },
+        components: {
+            "UploadAssembly": Upload
+        },
     }
 </script>

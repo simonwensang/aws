@@ -51,7 +51,7 @@ export default {
   //根据ID绑定或者解绑商家和机器
   bindMachine(data){
      console.log('bindMachine',data);
-    return post('machine/bindMachine/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser(),data);
+    return post('machine/bindMachine;JSESSIONID='+ Util.getUser(),data);
   },
   //创建品牌
   createBrand(data){
@@ -153,5 +153,15 @@ export default {
   querySellerAccountLog(data){
      console.log('querySellerAccountLog',data);
     return post('/sellerAccountLog/querySellerAccountLog;JSESSIONID='+ Util.getUser(),data);
+  },
+//审核新注册的酒机
+  machineAudit(data){
+     console.log('querySellerAccountLog',data);
+    return post('/machine/audit;JSESSIONID='+ Util.getUser(),data);
+  },
+//分页获取待审核酒机列表信息
+  queryAuditMachine(data){
+     console.log('querySellerAccountLog',data);
+    return post('/machine/queryAuditMachine;JSESSIONID='+ Util.getUser(),data);
   },
 }

@@ -22,6 +22,11 @@ export const otherRouter = {
       require(['@/page/wine/wine_management/index.vue'], resolve)
     }
     },
+    {
+      path: 'wine/wine_management_audit', name: 'wine_management_audit', component: resolve => {
+      require(['@/page/wine/wine_management_audit/index.vue'], resolve)
+    }
+    },
    {
       path: 'shop/shop_management', name: 'shop_management', component: resolve => {
       require(['@/page/shop/shop_management/index.vue'], resolve)
