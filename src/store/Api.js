@@ -164,4 +164,14 @@ export default {
      console.log('querySellerAccountLog',data);
     return post('/machine/queryAuditMachine;JSESSIONID='+ Util.getUser(),data);
   },
+//查询宣传片
+  getProductMedia(data){
+     console.log('getProductMedia',data);
+    return get('/productMedia/getProductMedia/'+data+';JSESSIONID='+ Util.getUser());
+  },
+//创建宣传片
+  createProductMedia(data){
+     console.log('createProductMedia',data);
+    return post('/productMedia/createProductMedia;JSESSIONID='+ Util.getUser(),data);
+  },
 }

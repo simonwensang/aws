@@ -9,7 +9,9 @@ export default new Vuex.Store({
 	actions,
 	state: {
 		id: 0,
-		title:'酒机后台管理系统'
+        title:'酒机后台管理系统',
+        uploadUrl:'',
+        videoId:0
 	},
 	mutations: {
 		getId (state, id) {
@@ -17,6 +19,12 @@ export default new Vuex.Store({
 		},
 		changeTitle(state,title){
 			state.title = title
-		}
+        },
+        getUploadUrl(state,uploadUrl){
+			state.uploadUrl = uploadUrl
+        },
+        getVideoId(state,videoId){
+			state.videoId = videoId
+        },
 	}
 })

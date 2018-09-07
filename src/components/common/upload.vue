@@ -2,86 +2,112 @@
     <div>
         <div class="demo-upload-list" v-for="item in uploadList" :key="item.name">
             <template v-if="item.status === 'finished'">
-                <img :src="item.url">
-                <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                </div>
+                <img :src="item.url" v-if="uploadType == 'png' || uploadType == 'jpg' || uploadType == 'jpeg'">
+                <video :src="item.url" controls autobuffer v-else>
+                    <!-- <source :src="item.url" type="video/mp4"> -->
+                </video>
             </template>
             <template v-else>
                 <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
             </template>
         </div>
-        <Upload
-            ref="upload"
-            :show-upload-list="false"
-            :name="upload"
-            :default-file-list="defaultList"
-            :on-success="handleSuccess"
-            :format="['jpg','jpeg','png']"
-            :on-format-error="handleFormatError"
-            :before-upload="handleBeforeUpload"
-            action="http://server.sangyiwen.top/file/upload;JSESSIONID=86a21e98-4b00-42e9-8bba-169f4e526d3b"
-            style="display: inline-block;width:58px;">
-            <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="ios-camera" size="20"></Icon>
+       <Upload 
+       ref="upload"
+       :action="uploadUrl"
+       :default-file-list="defaultList"
+       :on-success="handleSuccess"
+       :before-upload="handleBeforeUpload"
+       :on-format-error="handleFormatError"
+       style="display: inline-block;width:58px;"
+       :show-upload-list="false"
+       name="upload" 
+       >
+            <div style="width: 58px;height:58px;line-height: 58px;overflow: hidden;border: 1px dashed #dcdee2;text-align: center;cursor: pointer;">
+               <Icon type="ios-camera" size="20"></Icon>
             </div>
         </Upload>
-        <Modal title="View Image" v-model="visible">
-            <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-        </Modal>
     </div>
 </template>
 <script>
+import Util from '../../util/util';
+import Store from "../../store/index";
+import Api from "../../store/Api";
+
     export default {
         data () {
             return {
                 defaultList: [],
                 imgName: '',
                 visible: false,
-                uploadList: []
+                uploadList: [],
+                uploadUrl:"",
+                uploadType:'',
+
             }
         },
+        props: ['defaultUrl','type','videoData'],
         methods: {
-            handleView (name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove (file) {
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
             handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-                this.$Notice.success({
-                    title: '上传成功',
-                });
+                console.log('handleSuccess',file)
+                console.log('handleSuccess',res)
+                if(res.code == '200'){
+                    file.url = 'http://allbuywine.oss-cn-hangzhou.aliyuncs.com/'+res.dataMap;
+                    Store.commit('getUploadUrl',res.dataMap);
+                    let fileList = this.$refs.upload.fileList;
+                    this.$refs.upload.fileList.splice(0,fileList.length-1);
+                    this.uploadType = res.dataMap.split('.')[1];
+                    let meadiaType = (this.uploadType == 'png' || this.uploadType == 'jpg' || this.uploadType == 'jpeg') ? 1 : 2;
+                    console.log('uploadType',this.videoData)
+                    if(this.type == 'video'){
+                        //上传宣传片
+                        let createProductMediaData = Object.assign(this.videoData,{
+                            mediaUrl:'http://allbuywine.oss-cn-hangzhou.aliyuncs.com/'+res.dataMap,
+                            type:meadiaType
+                        })
+                        Api.createProductMedia(createProductMediaData).then((data) => {
+                            if(data.code == '200'){
+                                Store.commit('getVideoId',data.dataMap);
+                                this.$Notice.success({
+                                    title: '上传成功',
+                                });
+                            }
+                            console.log('createProductMediaData',data)
+                        })
+                    }else{
+                            this.$Notice.success({
+                            title: '上传成功',
+                        });
+                    }
+                }else{
+                    this.$Notice.warning({
+                            title: res.message,
+                        });
+                } 
+                
             },
             handleFormatError (file) {
-                this.$Notice.warning({
-                    title: '上传格式错误',
-                    desc: '请上传jpg/jpeg/png文件'
-                });
+                // this.$Notice.warning({
+                //     title: '上传格式错误',
+                //     desc: '请上传jpg/jpeg/png文件'
+                // });
             },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: 'Exceeding file size limit',
-                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 1;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
-                }
-                return check;
+            handleBeforeUpload (info) {
+                // const check = this.uploadList.length < 1;
+                // if (!check) {
+                //     this.$Notice.warning({
+                //         title: 'Up to five pictures can be uploaded.'
+                //     });
+                // }
+                // return check;
+                // this.$refs.upload.fileList = [];
+                console.log('info',info)
             }
         },
         mounted () {
             this.uploadList = this.$refs.upload.fileList;
+            this.uploadUrl = "http://server.sangyiwen.top/file/upload;JSESSIONID=" + Util.getUser();
+            console
+            // this.defaultList = !!this.defaultUrl ? [{name:'',url:this.defaultUrl}] : [];
         }
     }
 </script>

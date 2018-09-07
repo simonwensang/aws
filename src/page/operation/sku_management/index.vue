@@ -5,6 +5,8 @@
                 <p slot="title">产品详情</p>
                 <p>产品名称: {{productName}}</p>
                 <p>售价: {{salePrice}} 元</p>
+                <p>产品图片: <img :src="imageUrl" alt="" style=" width: 100px;height: 100px;display: inline-block;vertical-align: middle;padding-left: 20px;"></p>
+                <p>产品宣传片：</p><UploadAssembly type='video' :defaultUrl="defaultUrl" :videoData="videoData"></UploadAssembly>
             </Card>
         <Button type="primary" @click="creatUser" style="margin:10px 0">添加sku</Button>
         <Modal
@@ -31,8 +33,11 @@
                  <FormItem label="销售单位(毫升)：" prop="saleUnit">
                     <Input v-model="formData.saleUnit" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem label="验证码：" prop="rfid">
+                <FormItem label="RFID码：" prop="rfid">
                     <Input v-model="formData.rfid" style="width:300px;" :maxlength="11"></Input>
+                </FormItem>
+                <FormItem label="密码：" prop="password">
+                    <Input v-model="formData.password" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -44,6 +49,7 @@
   import Api from "../../../store/Api";
   import Util from '../../../util/util';
    import Store from "../../../store/index";
+   import Upload from '../../../components/common/upload.vue'
     export default {
         data () {
             const validateMobile = (rule, value, callback) => {
@@ -101,7 +107,9 @@
                     salePrice:'',
                     totalBuyPrice:'',
                     saleUnit:'',
-                    rfid:''
+                    rfid:'',
+                    password:'',
+                    videoData:{}
                 },
                 ruleCustom: {
                 capacity: [
@@ -204,7 +212,9 @@
                 productName:'',
                 salePrice:0,
                 brandId:'',
-                productId:''
+                productId:'',
+                imageUrl:'',
+                defaultUrl:''
             }
         },
         methods: {
@@ -326,18 +336,27 @@
                 this.queryBrand()
             }
         },
+        components: {
+            "UploadAssembly": Upload
+        },
         created(){
             Store.commit('changeTitle','产品详情页')
             //查询用户列表
            this.queryBrand();
            this.productId = this.$route.query.productId;
            this.brandId = this.$route.query.brandId; 
+           this.videoData = {productId:this.$route.query.productId}
+           //查询宣传片
+           !!this.$store.state.videoId && Api.getProductMedia(this.$store.state.videoId).then((data) => {
+                this.defaultUrl = data.dataMap
+           })
            //表头切换
         //    this.chengeType(this.$route.query.type);
         Api.getProduct(this.productId).then((data) => {
             console.log('getProduct',data);
             this.productName = data.dataMap.productName;
-            this.salePrice = data.dataMap.salePrice
+            this.salePrice = data.dataMap.salePrice;
+            this.imageUrl = 'http://allbuywine.oss-cn-hangzhou.aliyuncs.com/'+data.dataMap.image
         })
         }
     }

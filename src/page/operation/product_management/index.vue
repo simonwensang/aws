@@ -32,11 +32,14 @@
                  <FormItem label="进价单价(毫升) ：" prop="buyPrice">
                     <Input v-model="formData.buyPrice" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
+                <FormItem label="产品图片 ：" prop="image">
+                    <UploadAssembly></UploadAssembly>
+                    <!-- <Input v-model="formData.image" style="width:300px;" :maxlength="11"></Input> -->
+                </FormItem>
             </Form>
         </Modal>
         <Table border :columns="columns7" :data="data6"></Table>
         <Page :total="totalRecords" show-total :current="pageNo" @on-change='changePage'></Page>
-        <UploadAssembly></UploadAssembly>
     </div>
 </template>
 <script>
@@ -95,6 +98,7 @@
       };
             return {
                 brandList:[],
+                imageUrl:'',
                 factoryAccount:'',
                 factoryCreateTime:'',
                 hasFactory:false,
@@ -104,7 +108,8 @@
                     productName:'',
                     factoryId: '',
                     salePrice:'',
-                    buyPrice:''
+                    buyPrice:'',
+                    image:''
                 },
                 ruleCustom: {
                 brandName: [
@@ -248,6 +253,7 @@
                 if (valid) {
                     t.loading = true;
                     this.hasFactory ? t.formData.factoryId = t.$route.query.factoryId : '';
+                    t.formData.image = this.$store.state.uploadUrl;
                     let userData = Object.assign({},t.formData);
                     if(t.isCreat){
                         // 新增
@@ -335,7 +341,14 @@
                 this.queryBrand()
             }
         },
+        computed:{
+            uploadUrl(){
+                console.log('this.$store.state.uploadUrl',this.$store.state.uploadUrl)
+                return this.$store.state.uploadUrl
+            }
+        },
         created(){
+            console.log('this.$store.state.count',this.$store.state.uploadUrl)
             let t = this;
             //查询用户列表
            this.queryBrand();
