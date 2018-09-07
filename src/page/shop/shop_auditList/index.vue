@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增商家</Button>
+        <!-- <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增商家</Button> -->
         <!-- <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增产品</Button> -->
         <Modal
             v-model="modal1"
@@ -146,13 +146,13 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.show(params.index)
+                                            this.audit(params.index,1)
                                         }
                                     }
-                                }, '编辑'),
+                                }, '通过'),
                                  h('Button', {
                                     props: {
-                                        type: 'primary',
+                                        type: 'error',
                                         size: 'small'
                                     },
                                     style: {
@@ -160,52 +160,11 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.shopDetail(params.index)
+                                            this.audit(params.index,2)
                                         }
                                     }
-                                }, '查看'),
+                                }, '不通过'),
                             ];
-                            params.row.status == '启用' ? renderList.push( h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index,2)
-                                        }
-                                    }
-                                },  '禁用')) : renderList.push( h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index,1)
-                                        }
-                                    }
-                                },  '启用'));
-                                renderList.push( h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.delete(params.index)
-                                        }
-                                    }
-                                },  '删除'));
 
                             return h('div',renderList );
                         }
@@ -235,10 +194,10 @@
             let shopId = this.data6[index].id,brandId = this.data6[index].brandId;
             this.$router.push({name: 'shop_detail', query: { shopId: shopId}});
             },
-            remove (index,opt) {
+            audit (index,opt) {
                 // 禁用启用
                 let deleteUserServerData = {'id':this.data6[index].id,'opt':opt}
-                 Api.optUser(deleteUserServerData).then(response => {
+                 Api.auditUser(deleteUserServerData).then(response => {
                         if (response.code == 200) {
                             Util.showNotificationBox('success', '操作成功!');
                             this.loading = false;
@@ -313,16 +272,12 @@
                 this.isCreat = true;
             },
             queryBrand(){
-                //查询用户列表
-            let queryUserData =  !!this.$route.query.factoryId ? {
+                //查询审核上架列表
+            let queryUserData = {
                 'pageNo':this.pageNo,
                 'pageSize':this.pageSize,
-                'factoryId':this.$route.query.factoryId
-            } : {
-                'pageNo':this.pageNo,
-                'pageSize':this.pageSize,
-            } 
-            Api.querySeller(queryUserData).then(response => {
+            };
+            Api.queryAuditSeller(queryUserData).then(response => {
                if (response.code == 200) {
                         this.loading = false;
                         if(!!response.dataMap.records && response.dataMap.records.length > 0){
@@ -387,13 +342,13 @@
         });
         */
         // let title = !!this.$route.query.factoryId ? '厂家详情页' : '产品管理列表'; 
-        Store.commit('changeTitle','商家列表');
-         !!this.$route.query.factoryId ? Api.getUserServer(this.$route.query.factoryId).then((data) => {
-            console.log('getProduct',data);
-            this.factoryAccount = data.dataMap.account;
-            this.factoryCreateTime =  Util.transformTime(data.dataMap.createTime);
-            this.hasFactory = true
-        }) : '';
+        Store.commit('changeTitle','商家待审核列表');
+        //  !!this.$route.query.factoryId ? Api.getUserServer(this.$route.query.factoryId).then((data) => {
+        //     console.log('getProduct',data);
+        //     this.factoryAccount = data.dataMap.account;
+        //     this.factoryCreateTime =  Util.transformTime(data.dataMap.createTime);
+        //     this.hasFactory = true
+        // }) : '';
         }
     }
 </script>

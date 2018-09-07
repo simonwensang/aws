@@ -32,6 +32,11 @@ export const otherRouter = {
       require(['@/page/shop/shop_management/index.vue'], resolve)
     }
     },
+    {
+      path: 'shop/shop_auditList', name: 'shop_auditList', component: resolve => {
+      require(['@/page/shop/shop_auditList/index.vue'], resolve)
+    }
+    },
    {
       path: 'shop/shop_detail', name: 'shop_detail', component: resolve => {
       require(['@/page/shop/shop_detail/index.vue'], resolve)

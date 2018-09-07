@@ -65,6 +65,7 @@
           商家管理
         </template>
          <MenuItem name="shop_management">商家列表</MenuItem>
+         <MenuItem name="shop_auditList">商家审核列表</MenuItem>
         <!-- <MenuItem name="business_management">商户申请酒机列表</MenuItem>  -->
         <!-- <MenuItem name="wine_management">酒机管理</MenuItem>  -->
       </Submenu>

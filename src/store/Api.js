@@ -140,9 +140,24 @@ export default {
     return post('/userServer/querySeller;JSESSIONID='+ Util.getUser(),data);
   },
   //根据ID停用或者启用机器
+  optUser(data){
+     console.log('auditUser',data);
+    return post('/userServer/optUser/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser());
+  },
+  //商家审核
   auditUser(data){
      console.log('auditUser',data);
-    return post('/userServer/auditUser/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser());
+    return post('/userServer/auditUser/'+data.id+'/audit/'+data.opt+';JSESSIONID='+ Util.getUser());
+  },
+//审核商家列表
+  queryAuditSeller(data){
+     console.log('queryAuditSeller',data);
+    return post('/userServer/queryAuditSeller;JSESSIONID='+ Util.getUser(),data);
+  },
+//删除商家
+  deleteUserServer(data){
+     console.log('deleteUserServer',data);
+    return post('/userServer/deleteUserServer/'+data+';JSESSIONID='+ Util.getUser());
   },
   //根据ID获取商户信息
   getSellerDetail(data){
