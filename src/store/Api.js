@@ -189,4 +189,24 @@ export default {
      console.log('createProductMedia',data);
     return post('/productMedia/createProductMedia;JSESSIONID='+ Util.getUser(),data);
   },
+//酒及详情
+  getMachineDetail(data){
+     console.log('createProductMedia',data);
+    return get('/machine/getMachineDetail/'+data+';JSESSIONID='+ Util.getUser(),data);
+  },
+//编辑酒机
+  updateMachine(data){
+     console.log('updateMachine',data);
+    return post('/machine/updateMachine;JSESSIONID='+ Util.getUser(),data);
+  },
+//查询酒路列表
+  queryDrop(data){
+     console.log('queryDrop',data);
+    return post('/machine/queryDrop;JSESSIONID='+ Util.getUser(),data);
+  },
+//创建九路
+  createDrop(data){
+     console.log('createDrop',data);
+    return post('/drop/createDrop;JSESSIONID='+ Util.getUser(),data);
+  },
 }

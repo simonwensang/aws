@@ -1,5 +1,25 @@
 <template>
 <div>
+    <Modal
+            v-model="modal1"
+            title="请填写酒机信息"
+            @on-ok="ok('validateForm')"
+            >
+             <Form  ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
+                <FormItem label="formUserName" prop="account">
+                    <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
+                </FormItem>
+                <FormItem label="手机号码：" prop="mobile">
+                    <Input v-model="formData.mobile" style="width:300px;" :maxlength="11"></Input>
+                </FormItem>
+                <FormItem label="密码：" prop="password">
+                    <Input v-model="formData.password" type="password" style="width:300px;" :maxlength="20"></Input>
+                </FormItem>
+                <FormItem label="确认密码：" prop="checkPwd">
+                    <Input v-model="formData.checkPwd" type="password" style="width:300px;" :maxlength="20"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
   <Table border :columns="columnsList" :data="dataTable"></Table>
   <Page :total="totalRecords" show-total :current="pageNo" @on-change='changePage'></Page>
 </div>
@@ -39,6 +59,20 @@
                         align: 'center',
                         render: (h, params) => {
                             let renderList = [];
+                            renderList.push(h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.toDeatil(params.index)
+                                        }
+                                    }
+                                }, '查看'));
                              renderList.push(h('Button', {
                                     props: {
                                         type: 'primary',
@@ -70,7 +104,14 @@
                             return h('div', renderList);
                         }
                     }],
+                formData: {
+                    mobile: '',
+                    account: '',
+                    password: '',
+                    checkPwd: '',
+                },
             dataTable:[],
+            modal1: false,
             totalRecords:0,
             pageNo:1,
             pageSize:10,
@@ -82,6 +123,44 @@
         Store.commit('changeTitle','待审核酒机列表')
     },
     methods:{
+        toDeatil(index){
+            let machineId = this.dataTable[index].id;
+            this.$router.push({name: 'wine_detail', query: { machineId: machineId}});
+        },
+        show (index) {
+                // console.log(index)
+                this.modal1 = true;
+                // this.isEdit = true;
+                // this.id = this.data6[index].id
+            },
+        ok (formName) {
+                let t = this;
+                console.log('formName==',formName)
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    t.loading = true;
+                    let userData = Object.assign({},t.formData,{'type':2});
+                        // 新增
+                        
+                        Api.createUserServer(userData).then(response => {
+                        if (response.code == 200) {
+                            Util.showNotificationBox('success', '创建成功!');
+                            t.loading = false;
+                            //查询用户列表
+                            t.queryBrand();
+                            
+                        }
+                        });
+                   
+                     this.isEdit = false;
+                     this.isCreat = false;
+                    
+                } else {
+                    Util.showNotificationBox('error', '表单验证失败!');
+                    return false;
+                }
+                });
+            },
         lockMachine(index,opt){
             console.log('66666')
             let lockMachineData = {
