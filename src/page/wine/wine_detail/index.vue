@@ -55,14 +55,22 @@
                 <FormItem label="酒品skuid:" prop="skuId">
                     <Input v-model="dropForm.skuId" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
-                <FormItem label="酒品id" prop="productId">
+                 <FormItem label="酒品id" prop="productId">
                     <Input v-model="dropForm.productId" style="width:300px;" ></Input>
-                </FormItem>
-                <FormItem label="酒机码" prop="machineCode">
+                </FormItem> 
+                <!-- <FormItem label="酒机码" prop="machineCode">
                     <Input v-model="dropForm.machineCode" style="width:300px;" ></Input>
-                </FormItem>
+                </FormItem> -->
                 <FormItem label="酒机管路数:" prop="dropCode">
-                    <Input v-model="dropForm.dropCode" style="width:300px;" ></Input>
+                    <!-- <Input v-model="dropForm.dropCode" style="width:300px;" ></Input> -->
+                    <Select v-model="dropForm.dropCode" style="width:300px">
+                        <Option value="1" :key="1">1</Option>
+                        <Option value="2" :key="2">2</Option>
+                        <Option value="3" :key="3">3</Option>
+                        <Option value="4" :key="4">4</Option>
+                        <Option value="5" :key="5">5</Option>
+                        <Option value="6" :key="6">6</Option>
+                    </Select>
                 </FormItem>
                 <FormItem label="免费品尝量" prop="freeTastedAmount">
                     <Input v-model="dropForm.freeTastedAmount"  style="width:300px;" :maxlength="20"></Input>
@@ -159,6 +167,7 @@
                     isFreeTasted:''
                 },
                 machineName:'',
+                machineCode:'',
                 pipeCount:'',
                 pourLimit:'',
                 createTime:'',
@@ -305,7 +314,8 @@
                 console.log('createDrop',t.dropForm);
                 t.dropForm.isFreeTasted = !!t.dropForm.isFreeTasted && t.dropForm.isFreeTasted == "付费" ?  0 : 1;
                 t.dropForm.isLockedSale = !!t.dropForm.isLockedSale && t.dropForm.isLockedSale == "销售" ?  0 : 1;
-                let dropData = Object.assign({},t.dropForm,{'id':this.machineId});
+                t.dropForm.machineCode = this.machineCode;
+                let dropData = Object.assign({},t.dropForm);
                         // 创建九路
                          console.log('createDrop',dropData)
                         Api.createDrop(dropData).then(response => {
@@ -445,6 +455,7 @@
                     console.log('queryWineDetail',data)
                     if(data.code == 200){
                         this.machineName = !!data.dataMap.machineName ? data.dataMap.machineName : '-';
+                        this.machineCode = data.dataMap.machineCode;
                         this.pushAlias = !!data.dataMap.pushAlias ? data.dataMap.pushAlias : '-';
                         this.sellerName = !!data.dataMap.sellerName ? data.dataMap.sellerName : '-';
                         this.pipeCount = !!data.dataMap.pipeCount ? data.dataMap.pipeCount : 0;
