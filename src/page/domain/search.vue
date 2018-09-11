@@ -290,7 +290,7 @@
             <router-link :to="'/domain/price'">点击查看详情>></router-link>
           </p>
           <Row class="mt20">
-            <Col span="6" class="domain-card" v-for="(item, index) in discountList">
+            <Col span="6" class="domain-card" v-for="(item, index) in discountList" :key="index">
             <div class="domain-card-inner">
               <p class="domain-card-top">
                 <span class="root" :title="item.name">{{item.name}}</span>
@@ -386,7 +386,7 @@
           <div class="domain-detailed-empty">您还没有添加域名</div>
         </div>
         <div v-else class="purchase-body">
-          <div v-for="(domain, index) in domainNameList" class="ui-purchasebox-body">
+          <div v-for="(domain, index) in domainNameList" :key="index" class="ui-purchasebox-body">
             <div class="ui-purchasebox-domain-item">
               <div class="ui-purchasebox-domain-name"><span class="ui-purchasebox-item-name">{{domain.name}}</span>
               </div>
@@ -395,7 +395,7 @@
               </a>
               <div class="ui-purchasebox-domain-duration fr">
                 <Select @on-change="calcPrice" v-model="domain.year" style="width:70px" size="small">
-                  <Option v-for="(item, index) in years" :value="item">{{item}}年</Option>
+                  <Option v-for="(item, index) in years" :value="item" :key="index">{{item}}年</Option>
                 </Select>
               </div>
             </div>

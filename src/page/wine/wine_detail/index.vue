@@ -1,6 +1,6 @@
 <template>
     <div>
-        <i-button type="ghost" style="margin-bottom:10px" ><router-link to="/wine/wine_management_audit">返回</router-link></i-button>
+        <i-button type="ghost" style="margin-bottom:10px" ><router-link :to="backUrl">返回</router-link></i-button>
            <Card>
                 <p slot="title">酒机详情</p>
                 <p>酒机名称: {{machineName}}</p>
@@ -195,6 +195,7 @@
                 ]
                 },
                 modal1: false,
+                backUrl:'/wine/wine_management_audit',
                 modal2:false,
                 columns7: [
                     {
@@ -475,6 +476,7 @@
              this.shopId = this.$route.query.shopId;
            this.brandId = this.$route.query.brandId; 
            this.machineId = this.$route.query.machineId; 
+           this.backUrl = this.$route.query.opt == 2 ? 'wine_management_audit' : '/wine/wine_management'
            //查询酒路
         //    this.queryDrop();
            this.queryWineDetail();

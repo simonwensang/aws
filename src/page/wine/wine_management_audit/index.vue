@@ -125,7 +125,7 @@
     methods:{
         toDeatil(index){
             let machineId = this.dataTable[index].id;
-            this.$router.push({name: 'wine_detail', query: { machineId: machineId}});
+            this.$router.push({name: 'wine_detail', query: { machineId: machineId,opt:2}});
         },
         show (index) {
                 // console.log(index)
