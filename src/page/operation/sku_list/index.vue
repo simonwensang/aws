@@ -1,17 +1,6 @@
 <template>
     <div>
-        <i-button type="ghost" style="margin-bottom:10px">
-            <router-link to="/operation/product_management">返回</router-link>
-        </i-button>
-        <Card>
-            <p slot="title">产品详情</p>
-            <p>产品名称: {{productName}}</p>
-            <p>售价: {{salePrice}} 元</p>
-            <p>产品图片: <img :src="imageUrl" alt="" style=" width: 100px;height: 100px;display: inline-block;vertical-align: middle;padding-left: 20px;"></p>
-            <p>产品宣传片：</p>
-            <UploadAssembly type='video' :defaultUrl="defaultUrl" :videoData="videoData"></UploadAssembly>
-        </Card>
-        <Button type="primary" @click="creatUser" style="margin:10px 0">添加sku</Button>
+        <!-- <Button type="primary" @click="creatUser" style="margin:10px 0">添加sku</Button> -->
         <Modal v-model="modal1" :title="formTitle" @on-ok="ok('validateForm')" @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
                 <FormItem label="容器体积(毫升)：" prop="capacity">
@@ -107,8 +96,8 @@ export default {
                 volume: '',
                 remainder: '',
                 salePrice: '',
+                buyPrice: '',
                 totalBuyPrice: '',
-                buyPrice:'',
                 saleUnit: '',
                 rfid: '',
                 password: '',
@@ -166,41 +155,41 @@ export default {
                     title: '状态',
                     key: 'status'
                 },
-                {
-                    title: '操作',
-                    key: 'action',
-                    width: 200,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.show(params.index)
-                                    }
-                                }
-                            }, '编辑'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.remove(params.index)
-                                    }
-                                }
-                            }, '删除')
-                        ]);
-                    }
-                }
+                // {
+                //     title: '操作',
+                //     key: 'action',
+                //     width: 200,
+                //     align: 'center',
+                //     render: (h, params) => {
+                //         return h('div', [
+                //             h('Button', {
+                //                 props: {
+                //                     type: 'primary',
+                //                     size: 'small'
+                //                 },
+                //                 style: {
+                //                     marginRight: '5px'
+                //                 },
+                //                 on: {
+                //                     click: () => {
+                //                         this.show(params.index)
+                //                     }
+                //                 }
+                //             }, '编辑'),
+                //             h('Button', {
+                //                 props: {
+                //                     type: 'error',
+                //                     size: 'small'
+                //                 },
+                //                 on: {
+                //                     click: () => {
+                //                         this.remove(params.index)
+                //                     }
+                //                 }
+                //             }, '删除')
+                //         ]);
+                //     }
+                // }
             ],
             data6: [],
             isCreat: false,
@@ -239,11 +228,6 @@ export default {
             console.log('this.formData', this.formData)
 
         },
-        toSku(index) {
-            //到详情页
-            let productId = this.data6[index].id;
-            this.$router.push({ name: 'sku_management', query: { id: productId } });
-        },
         remove(index) {
             // 删除
             let deleteUserServerData = { 'id': this.data6[index].id }
@@ -263,7 +247,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     t.loading = true;
-                    let userData = Object.assign({}, t.formData, { 'productId': this.productId, 'brandId': this.brandId });
+                    let userData = Object.assign({}, t.formData);
                     if (t.isCreat) {
                         // 新增
                         Api.createSku(userData).then(response => {
@@ -309,7 +293,7 @@ export default {
             let queryUserData = {
                 'pageNo': this.pageNo,
                 'pageSize': this.pageSize,
-                'productId': this.productId
+                // 'productId':this.productId
             }
             Api.querySku(queryUserData).then(response => {
                 if (response.code == 200) {
@@ -356,24 +340,24 @@ export default {
         "UploadAssembly": Upload
     },
     created() {
-        Store.commit('changeTitle', '产品详情页')
+        Store.commit('changeTitle', 'sku列表页')
         //查询用户列表
-        this.productId = this.$route.query.productId;
-        this.brandId = this.$route.query.brandId;
-        this.videoData = { productId: this.$route.query.productId }
+        //    this.productId = this.$route.query.productId;
+        //    this.brandId = this.$route.query.brandId; 
+        //    this.videoData = {productId:this.$route.query.productId}
         //查询宣传片
-        !!this.$store.state.videoId && Api.getProductMedia(this.$store.state.videoId).then((data) => {
-            this.defaultUrl = data.dataMap
-        })
+        //    !!this.$store.state.videoId && Api.getProductMedia(this.$store.state.videoId).then((data) => {
+        //         this.defaultUrl = data.dataMap
+        //    })
         //表头切换
         //    this.chengeType(this.$route.query.type);
         this.queryBrand();
-        Api.getProduct(this.productId).then((data) => {
-            console.log('getProduct', data);
-            this.productName = data.dataMap.productName;
-            this.salePrice = data.dataMap.salePrice;
-            this.imageUrl = 'http://allbuywine.oss-cn-hangzhou.aliyuncs.com/' + data.dataMap.image
-        })
+        // Api.getProduct(this.productId).then((data) => {
+        //     console.log('getProduct',data);
+        //     this.productName = data.dataMap.productName;
+        //     this.salePrice = data.dataMap.salePrice;
+        //     this.imageUrl = 'http://allbuywine.oss-cn-hangzhou.aliyuncs.com/'+data.dataMap.image
+        // })
     }
 }
 </script>

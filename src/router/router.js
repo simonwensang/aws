@@ -57,6 +57,11 @@ export const otherRouter = {
       require(['@/page/operation/product_management/index.vue'], resolve)
     }
     },
+  {
+      path: 'operation/sku_list', name: 'sku_list', component: resolve => {
+      require(['@/page/operation/sku_list/index.vue'], resolve)
+    }
+    },
    {
       path: 'operation/sku_management', name: 'sku_management', component: resolve => {
       require(['@/page/operation/sku_management/index.vue'], resolve)

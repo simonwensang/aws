@@ -77,6 +77,7 @@
          <MenuItem name="factory_management">厂家管理</MenuItem>
         <MenuItem name="brand_management">品牌管理</MenuItem> 
         <MenuItem name="product_management">商品管理</MenuItem> 
+        <MenuItem name="sku_list">sku列表</MenuItem> 
       </Submenu>
     </Menu>
   </div>

@@ -52,12 +52,12 @@
                 @on-ok="createDrop('dropForm')"
                 @on-cancel="cancel">
                 <Form :rules="ruleCustom" ref="dropForm" :model="dropForm" :label-width="150" style="padding-top: 30px;">
-                <FormItem label="酒品skuid:" prop="skuId">
+                <!-- <FormItem label="酒品skuid:" prop="skuId">
                     <Input v-model="dropForm.skuId" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
                  <FormItem label="酒品id" prop="productId">
                     <Input v-model="dropForm.productId" style="width:300px;" ></Input>
-                </FormItem> 
+                </FormItem>  -->
                 <!-- <FormItem label="酒机码" prop="machineCode">
                     <Input v-model="dropForm.machineCode" style="width:300px;" ></Input>
                 </FormItem> -->
@@ -88,13 +88,13 @@
                     </RadioGroup>
                     <!-- <Input v-model="dropForm.isFreeTasted" style="width:300px;" ></Input> -->
                 </FormItem>
-                <FormItem label="是否在售" prop="isLockedSale">
+                <!-- <FormItem label="是否在售" prop="isLockedSale">
                     <RadioGroup v-model="dropForm.isLockedSale">
                         <Radio label="销售"></Radio>
                         <Radio label="停售"></Radio>
-                    </RadioGroup>
+                    </RadioGroup> -->
                     <!-- <Input v-model="dropForm.isFreeTasted" style="width:300px;" ></Input> -->
-                </FormItem>
+                <!-- </FormItem> -->
             </Form>
         </Modal>
         <span style = "margin: 25px 20px 0px 0px;display: inline-block;font-weight: 600;font-size: 14px;">酒机管路列表</span> <Button type="primary"  size="small" @click='modal2 = true'>增加酒机管路</Button>
