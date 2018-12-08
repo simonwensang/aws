@@ -108,7 +108,7 @@ export default {
                 remainder: '',
                 salePrice: '',
                 totalBuyPrice: '',
-                buyPrice:'',
+                buyPrice: '',
                 saleUnit: '',
                 rfid: '',
                 password: '',
@@ -151,7 +151,7 @@ export default {
                     key: 'remainder'
                 },
                 {
-                    title: ' 销售单价(毫升) ',
+                    title: ' 销售单价',
                     key: 'salePrice'
                 },
                 {
