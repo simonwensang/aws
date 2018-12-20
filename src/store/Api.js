@@ -209,4 +209,19 @@ export default {
      console.log('createDrop',data);
     return post('/drop/createDrop;JSESSIONID='+ Util.getUser(),data);
   },
+  //编辑九路
+  updateDrop(data){
+     console.log('updateDrop',data);
+    return post('/drop/updateDrop;JSESSIONID='+ Util.getUser(),data);
+  },
+  //删除九路
+  deleteDrop(data){
+     console.log('deleteDrop',data);
+    return post('/drop/deleteDrop/'+data+';JSESSIONID='+ Util.getUser(),data);
+  },
+  //商家仓库
+  querySellerRepertory(data){
+     console.log('querySellerRepertory',data);
+    return post('/sellerRepertory/querySellerRepertory;JSESSIONID='+ Util.getUser(),data);
+  },
 }

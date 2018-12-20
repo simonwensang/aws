@@ -16,12 +16,12 @@
             <Button type="primary" size="small" @click='modal1 = true'>编辑酒机</Button>
         </Card>
         <!-- <Card style="marginTop:10px">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p slot="title">商家账户资金</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>真实姓名: {{realName}}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>身份证号: {{idNumber}}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>状态: {{status}}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <Button type="primary"  size="small" @click='modal1 = true'>查看资金明细</Button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </Card> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p slot="title">商家账户资金</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p>真实姓名: {{realName}}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p>身份证号: {{idNumber}}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p>状态: {{status}}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <Button type="primary"  size="small" @click='modal1 = true'>查看资金明细</Button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </Card> -->
         <Modal v-model="modal1" title="编辑酒机" @on-ok="ok('validateForm')" @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
                 <FormItem label="酒机名称：" prop="machineName">
@@ -47,14 +47,14 @@
         <Modal v-model="modal2" title="请输入酒机器管路信息" @on-ok="createDrop('dropForm')" @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="dropForm" :model="dropForm" :label-width="150" style="padding-top: 30px;">
                 <!-- <FormItem label="酒品skuid:" prop="skuId">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Input v-model="dropForm.skuId" style="width:300px;" :maxlength="20"></Input>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </FormItem>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <FormItem label="酒品id" prop="productId">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Input v-model="dropForm.productId" style="width:300px;" ></Input>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </FormItem>  -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <Input v-model="dropForm.skuId" style="width:300px;" :maxlength="20"></Input>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </FormItem>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <FormItem label="酒品id" prop="productId">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <Input v-model="dropForm.productId" style="width:300px;" ></Input>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </FormItem>  -->
                 <!-- <FormItem label="酒机码" prop="machineCode">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Input v-model="dropForm.machineCode" style="width:300px;" ></Input>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </FormItem> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <Input v-model="dropForm.machineCode" style="width:300px;" ></Input>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </FormItem> -->
                 <FormItem label="酒机管路数:" prop="dropCode">
                     <!-- <Input v-model="dropForm.dropCode" style="width:300px;" ></Input> -->
                     <Select v-model="dropForm.dropCode" style="width:300px">
@@ -66,27 +66,27 @@
                         <Option value="6" :key="6">6</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="免费品尝量" prop="freeTastedAmount">
-                    <Input v-model="dropForm.freeTastedAmount" style="width:300px;" :maxlength="20"></Input>
-                </FormItem>
+                <!-- <FormItem label="免费品尝量" prop="freeTastedAmount">
+                                                                                                                                                                                                                                                                        <Input v-model="dropForm.freeTastedAmount" style="width:300px;" :maxlength="20"></Input>
+                                                                                                                                                                                                                                                                    </FormItem> -->
                 <FormItem label="管路偏差" prop="dropErrorAmount">
                     <Input v-model="dropForm.dropErrorAmount" style="width:300px;"></Input>
                 </FormItem>
                 <FormItem label="管路补偿量 " prop="dropCompensateAmount">
                     <Input v-model="dropForm.dropCompensateAmount" style="width:300px;"></Input>
                 </FormItem>
-                <FormItem label="是否免费" prop="isFreeTasted">
-                    <RadioGroup v-model="dropForm.isFreeTasted">
-                        <Radio label="免费"></Radio>
-                        <Radio label="付费"></Radio>
-                    </RadioGroup>
-                    <!-- <Input v-model="dropForm.isFreeTasted" style="width:300px;" ></Input> -->
-                </FormItem>
+                <!-- <FormItem label="是否免费" prop="isFreeTasted">
+                                                                                                                                                                                                                                                                <RadioGroup v-model="dropForm.isFreeTasted">
+                                                                                                                                                                                                                                                                    <Radio label="免费"></Radio>
+                                                                                                                                                                                                                                                                    <Radio label="付费"></Radio>
+                                                                                                                                                                                                                                                                </RadioGroup> -->
+                <!-- <Input v-model="dropForm.isFreeTasted" style="width:300px;" ></Input> -->
+                <!-- </FormItem> -->
                 <!-- <FormItem label="是否在售" prop="isLockedSale">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <RadioGroup v-model="dropForm.isLockedSale">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <Radio label="销售"></Radio>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <Radio label="停售"></Radio>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </RadioGroup> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <RadioGroup v-model="dropForm.isLockedSale">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Radio label="销售"></Radio>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Radio label="停售"></Radio>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </RadioGroup> -->
                 <!-- <Input v-model="dropForm.isFreeTasted" style="width:300px;" ></Input> -->
                 <!-- </FormItem> -->
             </Form>
@@ -168,6 +168,7 @@ export default {
                 dropCompensateAmount: '',
                 isFreeTasted: ''
             },
+            bindStatus: 0,//是否可以绑定sku
             machineName: '',
             machineCode: '',
             pipeCount: '',
@@ -205,6 +206,10 @@ export default {
                     key: 'skuId'
                 },
                 {
+                    title: 'sku名称 ',
+                    key: 'skuId'
+                },
+                {
                     title: '酒品id',
                     key: 'productId'
                 },
@@ -237,8 +242,80 @@ export default {
                     key: 'isLockedSale'
                 },
                 {
+                    title: '离线状态 ',
+                    key: 'isOffLine'
+                },
+                {
                     title: '商品状态 ',
                     key: 'isPullOff'
+                },
+                {
+                    title: '操作',
+                    key: 'action',
+                    width: 230,
+                    align: 'center',
+                    render: (h, params) => {
+                        let renderList = [];
+                        renderList.push(h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.show(params.index)
+                                }
+                            }
+                        }, '编辑'));
+                        renderList.push(h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.remove(params.index)
+                                }
+                            }
+                        }, '删除'));
+                        this.bindStatus === 2 ? renderList.push(h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.bindSku(params.index, 0)
+                                }
+                            }
+                        }, '绑定sku')) : renderList.push(h('Button', {
+                            props: {
+                                type: 'error',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.lockMachine(params.index, 1)
+                                }
+                            }
+                        }, '解绑sku'));
+
+
+                        return h('div', renderList);
+
+                    }
                 }
             ],
             columns66: [
@@ -286,16 +363,60 @@ export default {
             sellerName: '',
             miniappCode: '',
             longitude: '',
-            latitude: ''
+            latitude: '',
+            skuId: 0,
 
         }
     },
     methods: {
+        // edit(index) {
+        //     let t = this;
+        //     this.modal2 = true;
+        //     console.log('updateDrop', t.dropForm);
+        //     t.dropForm.isFreeTasted = !!t.dropForm.isFreeTasted && t.dropForm.isFreeTasted == "付费" ? 0 : 1;
+        //     t.dropForm.isLockedSale = !!t.dropForm.isLockedSale && t.dropForm.isLockedSale == "销售" ? 0 : 1;
+        //     t.dropForm.machineCode = this.machineCode;
+        //     let dropData = Object.assign({}, t.dropForm);
+        //     dropData.id = this.data6[index].id;
+        //     // 编辑九路
+        //     console.log('updateDrop', dropData)
+        //     Api.updateDrop(dropData).then(response => {
+        //         if (response.code == 200) {
+        //             Util.showNotificationBox('success', '创建成功!');
+        //             t.loading = false;
+        //             //查询用户列表
+        //             // t.queryBrand();
+        //             t.queryWineDetail()
+        //         }
+        //     });
+        // },
+        bindSku() {
+            let querySellerAccountLogData = {
+                'pageNo': this.pageNo,
+                'pageSize': this.pageSize,
+                'sellerId': this.shopId
+            }
+
+            Api.querySellerRepertory(querySellerAccountLogData).then(response => {
+                if (response.code == 200) {
+                    this.loading = false;
+                    console.log('response', response)
+                    // this.data66 = !!response.dataMap.records ? response.dataMap.records : [];
+                    // this.pageNo66 = !!response.dataMap.pageNo ? response.dataMap.pageNo : 1;
+                    // this.totalRecords66 = response.dataMap.totalRecords;
+                }
+            });
+
+        },
         show(index) {
             console.log(index)
-            this.modal1 = true;
+            this.modal2 = true;
             this.isEdit = true;
-            this.id = this.data6[index].id
+            this.id = this.data6[index].id;
+            this.skuId = this.data6[index].skuId;
+            this.dropForm.dropCode = this.data6[index].dropCode;
+            this.dropForm.dropErrorAmount = this.data6[index].dropErrorAmount;
+            this.dropForm.dropCompensateAmount = this.data6[index].dropCompensateAmount;
         },
         toSku(index) {
             //到详情页
@@ -304,8 +425,8 @@ export default {
         },
         remove(index) {
             // 删除
-            let deleteUserServerData = { 'id': this.data6[index].id }
-            Api.deleteSku(deleteUserServerData).then(response => {
+            // let deleteUserServerData = { 'id': this.data6[index].id }
+            Api.deleteDrop(this.data6[index].id).then(response => {
                 if (response.code == 200) {
                     Util.showNotificationBox('success', '删除成功!');
                     this.loading = false;
@@ -322,17 +443,37 @@ export default {
             t.dropForm.isLockedSale = !!t.dropForm.isLockedSale && t.dropForm.isLockedSale == "销售" ? 0 : 1;
             t.dropForm.machineCode = this.machineCode;
             let dropData = Object.assign({}, t.dropForm);
-            // 创建九路
+
             console.log('createDrop', dropData)
-            Api.createDrop(dropData).then(response => {
-                if (response.code == 200) {
-                    Util.showNotificationBox('success', '创建成功!');
-                    t.loading = false;
-                    //查询用户列表
-                    // t.queryBrand();
-                    t.queryWineDetail()
-                }
-            });
+            if (this.isEdit) {
+                // 编辑九路
+                dropData.id = this.id;
+                dropData.skuId = this.skuId;
+                console.log('updateDrop', dropData)
+                Api.updateDrop(dropData).then(response => {
+                    if (response.code == 200) {
+                        Util.showNotificationBox('success', '编辑成功!');
+                        t.loading = false;
+                        //查询用户列表
+                        // t.queryBrand();
+                        t.queryWineDetail()
+                    }
+                });
+
+            } else {
+                // 创建九路
+                Api.createDrop(dropData).then(response => {
+                    if (response.code == 200) {
+                        Util.showNotificationBox('success', '创建成功!');
+                        t.loading = false;
+                        //查询用户列表
+                        // t.queryBrand();
+                        t.queryWineDetail()
+                    }
+                });
+            }
+            this.isEdit = false;
+
         },
         ok(formName) {
             let t = this;
@@ -394,6 +535,11 @@ export default {
                             } else if (element.isPullOff == 1) {
                                 element.isPullOff = '下架'
                             };
+                            if (element.isOffLine == 0) {
+                                element.isOffLine = '在线'
+                            } else if (element.isOffLine == 1) {
+                                element.isOffLine = '离线'
+                            }
                         }, this);
                     }
                     this.data6 = !!response.dataMap.records ? response.dataMap.records : [];
@@ -469,9 +615,38 @@ export default {
                     this.lackLowerLimit = !!data.dataMap.lackLowerLimit ? data.dataMap.lackLowerLimit : 0;
                     this.miniappCode = !!data.dataMap.miniappCode ? data.dataMap.miniappCode : '';
                     this.createTime = Util.transformTime(data.dataMap.createTime);
+                    this.bindStatus = data.dataMap.bindStatus;
+                    data.dataMap.dropODTOList.forEach(function(element) {
+                        if (element.isFreeTasted == 0) {
+                            element.isFreeTasted = '收费'
+                        } else if (element.isFreeTasted == 2) {
+                            element.isFreeTasted = '免费'
+                        };
+                        if (element.isLockedSale == 0) {
+                            element.isLockedSale = '销售'
+                        } else if (element.isLockedSale == 1) {
+                            element.isLockedSale = '停止'
+                        };
+                        if (element.isPullOff == 0) {
+                            element.isPullOff = '上架'
+                        } else if (element.isPullOff == 1) {
+                            element.isPullOff = '下架'
+                        };
+                        if (element.isOffLine == 0) {
+                            element.isOffLine = '在线'
+                        } else if (element.isOffLine == 1) {
+                            element.isOffLine = '离线'
+                        }
+                    }, this);
                     this.data6 = data.dataMap.dropODTOList;
                     this.longitude = data.dataMap.longitude;
                     this.latitude = data.dataMap.latitude;
+                    this.formData.machineName = this.machineName;
+                    this.formData.pourLimit = this.pourLimit;
+                    this.formData.lackLowerLimit = this.lackLowerLimit;
+                    this.formData.miniappCode = this.miniappCode;
+                    this.formData.password = this.password;
+                    this.formData.pipeCount = this.pipeCount;
                     this.renderMap()
 
 

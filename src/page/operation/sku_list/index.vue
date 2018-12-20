@@ -21,9 +21,6 @@
                 <FormItem label="进价总价  ：" prop="totalBuyPrice">
                     <Input v-model="formData.totalBuyPrice" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem label="销售单位(毫升)：" prop="saleUnit">
-                    <Input v-model="formData.saleUnit" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
                 <FormItem label="RFID码：" prop="rfid">
                     <Input v-model="formData.rfid" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
@@ -98,7 +95,6 @@ export default {
                 salePrice: '',
                 buyPrice: '',
                 totalBuyPrice: '',
-                saleUnit: '',
                 rfid: '',
                 password: '',
             },

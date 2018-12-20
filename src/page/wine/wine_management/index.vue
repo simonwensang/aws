@@ -26,6 +26,14 @@ export default {
                 key: 'machineCode'
             },
             {
+                title: '酒机类型',
+                key: 'type'
+            },
+            {
+                title: '设备名',
+                key: 'deviceName'
+            },
+            {
                 title: '绑定商家',
                 key: 'sellerName'
             },
@@ -40,6 +48,10 @@ export default {
             {
                 title: '绑定状态',
                 key: 'bindStatus'
+            },
+            {
+                title: '离线状态',
+                key: 'isOffLine'
             },
             {
                 title: '操作',
@@ -242,6 +254,18 @@ export default {
                     } else if (element.bindStatus == 2) {
                         element.bindStatus = '已绑定'
                     };
+
+                    if (element.isOffLine == 0) {
+                        element.isOffLine = '在线'
+                    } else if (element.isOffLine == 1) {
+                        element.isOffLine = '离线'
+                    }
+
+                    if (element.type == 1) {
+                        element.type = '大型机'
+                    } else if (element.type == 2) {
+                        element.type = '小型机'
+                    }
 
                 }, this);
                 this.dataTable = data.dataMap.records;
