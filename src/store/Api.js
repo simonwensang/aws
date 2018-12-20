@@ -224,4 +224,14 @@ export default {
      console.log('querySellerRepertory',data);
     return post('/sellerRepertory/querySellerRepertory;JSESSIONID='+ Util.getUser(),data);
   },
+  //管路绑定酒sku
+  bindDrop(data){
+     console.log('bindDrop',data);
+    return post('/drop/bindDrop;JSESSIONID='+ Util.getUser(),data);
+  },
+  //根据ID停业或者销售drop
+  lockedSale(data){
+     console.log('bindDrop',data);
+    return post('/drop/lockedSale/'+data.id+'/opt/'+data.opt+';JSESSIONID='+ Util.getUser());
+  },
 }
