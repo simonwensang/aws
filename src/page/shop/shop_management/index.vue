@@ -1,15 +1,12 @@
 <template>
     <div>
-        <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增商家</Button>
+        
         <!-- <Button type="primary" @click="creatUser" style="margin-bottom:10px">新增产品</Button> -->
         <Modal v-model="modal1" :title="formTitle" @on-ok="ok('validateForm')" @on-cancel="cancel">
             <Form :rules="ruleCustom" ref="validateForm" :model="formData" :label-width="150" style="padding-top: 30px;">
-                <FormItem :label="formUserName" prop="account">
-                    <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
-                </FormItem>
-                <FormItem label="手机号码：" prop="mobile">
-                    <Input v-model="formData.mobile" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
+                <FormItem :label="formUserName" prop="name">
+                    <Input v-model="formData.name" style="width:300px;" :maxlength="20"></Input>
+                </FormItem>      
                 <FormItem label="密码：" prop="password">
                     <Input v-model="formData.password" type="password" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
@@ -42,8 +39,8 @@ export default {
             if (value === '') {
                 callback(new Error('请输入用户名！'));
             } else {
-                if (value.length < 6) {
-                    callback(new Error('用户名不能少于6位！'));
+                if (value.length < 2) {
+                    callback(new Error('用户名不能少于2位！'));
                 }
                 if (value.length > 16) {
                     callback(new Error('用户名不能大于16位！'));
@@ -82,16 +79,12 @@ export default {
             hasFactory: false,
             factoryList: [],
             formData: {
-                mobile: '',
-                account: '',
+                name: '',
                 password: '',
                 checkPwd: '',
             },
             ruleCustom: {
-                mobile: [
-                    { validator: validateMobile, trigger: 'blur' }
-                ],
-                account: [
+                name: [
                     { validator: validateAccount, trigger: 'blur' }
                 ],
                 password: [
@@ -105,6 +98,20 @@ export default {
             columns7: [
                 {
                     title: '商家名',
+                    key: 'name',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Icon', {
+                                props: {
+                                    type: 'person'
+                                }
+                            }),
+                            h('strong', params.row.name)
+                        ]);
+                    }
+                },
+                 {
+                    title: '商家账户',
                     key: 'account',
                     render: (h, params) => {
                         return h('div', [
@@ -132,20 +139,7 @@ export default {
                     align: 'center',
                     render: (h, params) => {
                         let renderList = [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.show(params.index)
-                                    }
-                                }
-                            }, '编辑'),
+                          
                             h('Button', {
                                 props: {
                                     type: 'primary',
@@ -225,8 +219,7 @@ export default {
             this.modal1 = true;
             this.isEdit = true;
             this.id = this.data6[index].id;
-            this.formData.mobile = this.data6[index].mobile;
-            this.formData.account = this.data6[index].account;
+            this.formData.name = this.data6[index].name;
             this.formData.password = this.data6[index].password;
 
         },

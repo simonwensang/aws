@@ -29,10 +29,7 @@ export default {
                 title: '酒机类型',
                 key: 'type'
             },
-            {
-                title: '设备名',
-                key: 'deviceName'
-            },
+    
             {
                 title: '绑定商家',
                 key: 'sellerName'

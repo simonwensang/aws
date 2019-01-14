@@ -11,7 +11,7 @@
             <p>酒机管路数: {{pipeCount}}</p>
             <p>出酒上限: {{pourLimit}}</p>
             <p>缺酒下限: {{lackLowerLimit}}</p>
-            <p>小程序二维码 : {{miniappCode}}</p>
+            <p>小程序二维码 : <img :src="miniappCode" alt="" style=" width: 220px;height: 210px;display: inline-block;vertical-align: middle;padding-left: 20px;"></p>
             <p>创建时间: {{createTime}}</p>
             <Button type="primary" size="small" @click='modal1 = true'>编辑酒机</Button>
         </Card>
@@ -129,8 +129,8 @@ export default {
             if (value === '') {
                 callback(new Error('请输入用户名！'));
             } else {
-                if (value.length < 6) {
-                    callback(new Error('用户名不能少于6位！'));
+                if (value.length < 2) {
+                    callback(new Error('用户名不能少于2位！'));
                 }
                 if (value.length > 16) {
                     callback(new Error('用户名不能大于16位！'));
@@ -641,59 +641,6 @@ export default {
                 }
             });
         },
-        querySellerAccountLog() {
-            let querySellerAccountLogData = {
-                'pageNo': this.pageNo,
-                'pageSize': this.pageSize,
-                'sellerId': this.shopId
-            }
-            Api.querySellerAccountLog(querySellerAccountLogData).then(response => {
-                if (response.code == 200) {
-                    this.loading = false;
-                    if (!!response.dataMap.records && response.dataMap.records.length > 0) {
-                        response.dataMap.records.forEach(function(element) {
-                            if (element.type == 1) {
-                                element.type = '订单'
-                            } else if (element.type == 2) {
-                                element.type = '采购'
-                            } else if (element.type == 3) {
-                                element.type = '充值'
-                            } else if (element.type == 4) {
-                                element.type = '提现'
-                            };
-                            // if(element.status == 0){
-                            //     element.status = '空瓶'
-                            // }else if(element.status == 1){
-                            //     element.status = '罐装完成'
-                            // }else if(element.status == 2){
-                            //    element.status = '采购下单'
-                            // }else if(element.status == 3){
-                            //    element.status = '运输'
-                            // }else if(element.status == 4){
-                            //    element.status = '收货'
-                            // }else if(element.status == 5){
-                            //    element.status = '上架'
-                            // }else if(element.status == 6){
-                            //    element.status = '下架'
-                            // };
-                        }, this);
-                    }
-                    this.data66 = !!response.dataMap.records ? response.dataMap.records : [];
-                    this.pageNo66 = !!response.dataMap.pageNo ? response.dataMap.pageNo : 1;
-                    this.totalRecords66 = response.dataMap.totalRecords;
-                }
-            });
-        },
-        changePage(current) {
-            console.log('changePage', current);
-            this.pageNo = current;
-            // this.queryDrop()
-        },
-        changePage6(current) {
-            console.log('changePage', current);
-            this.pageNo = current;
-            this.querySellerAccountLog()
-        },
         queryWineDetail() {
             //获取酒机详情
             this.machineId && Api.getMachineDetail(this.machineId).then((data) => {
@@ -809,12 +756,12 @@ export default {
         //         this.status = '冻结账户'
         //     }
         // });
-        let querySellerAccountLogData = {
-            'pageNo': this.pageNo,
-            'pageSize': this.pageSize,
-            'sellerId': this.shopId
-        }
-        this.querySellerAccountLog();
+        // let querySellerAccountLogData = {
+        //     'pageNo': this.pageNo,
+        //     'pageSize': this.pageSize,
+        //     'sellerId': this.shopId
+        // }
+        // this.querySellerAccountLog();
     }
 }
 </script>

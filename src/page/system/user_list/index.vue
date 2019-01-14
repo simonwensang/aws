@@ -10,9 +10,7 @@
                 <FormItem :label="formUserName" prop="account">
                     <Input v-model="formData.account" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
-                <FormItem label="手机号码：" prop="mobile">
-                    <Input v-model="formData.mobile" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
+            
                 <FormItem label="密码：" prop="password">
                     <Input v-model="formData.password" type="password" style="width:300px;" :maxlength="20"></Input>
                 </FormItem>
@@ -31,22 +29,13 @@
   import Store from "../../../store/index";
     export default {
         data () {
-            const validateMobile = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入手机号码！'));
-        } else {
-          if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(value)) {
-            callback(new Error('请输入正确格式的手机号码！'));
-          }
-          callback();
-        }
-      };
+         
       const validateAccount = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入用户名！'));
         } else {
-          if (value.length < 6) {
-            callback(new Error('用户名不能少于6位！'));
+          if (value.length < 2) {
+            callback(new Error('用户名不能少于2位！'));
           }
           if (value.length > 16) {
             callback(new Error('用户名不能大于16位！'));
@@ -86,9 +75,7 @@
                     checkPwd: '',
                 },
                 ruleCustom: {
-                mobile: [
-                    { validator: validateMobile, trigger: 'blur' }
-                ],
+              
                 account: [
                     { validator: validateAccount, trigger: 'blur' }
                 ],
@@ -141,7 +128,7 @@
             remove (index,opt) {
                 // 删除
                 let deleteUserServerData = {'id':this.data6[index].id,'opt':opt}
-                 Api.auditUser(deleteUserServerData).then(response => {
+                 Api.optUser(deleteUserServerData).then(response => {
                         if (response.code == 200) {
                             Util.showNotificationBox('success', '操作成功!');
                             this.loading = false;
@@ -151,6 +138,21 @@
                         }
                         });
             },
+            
+             delete(index) {
+            //删除
+            let id = this.data6[index].id;
+            Api.deleteUserServer(id).then(response => {
+                if (response.code == 200) {
+                    Util.showNotificationBox('success', '删除成功!');
+                    this.loading = false;
+                    //查询用户列表
+                    this.queryBrand();
+                    // this.data6.splice(index, 1);
+                }
+            });
+
+        },
             ok (formName) {
                 let t = this;
                 console.log('formName==',formName)
@@ -285,7 +287,8 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '编辑')
+                                }, '编辑') 
+                                
                             ];
                             console.log('params.status',params.status)
                             params.row.status == '启用' ? renderList.push( h('Button', {
@@ -315,8 +318,21 @@
                                         }
                                     }
                                 },  '启用'));
+                               renderList.push(  h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.delete(params.index)
+                                        }
+                                    }
+                                }, '删除'));
                             return h('div', renderList);
                         }
+
+                        
                     }
                 ] : (data == 2 ? [
                     {
@@ -369,7 +385,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params.index)
+                                            this.delete(params.index)
                                         }
                                     }
                                 }, '删除')
@@ -406,34 +422,8 @@
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.toProduct(params.index)
-                                        }
-                                    }
-                                }, '查看'),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.show(params.index)
-                                        }
-                                    }
-                                }, '编辑'),
+                              
+                       
                                 h('Button', {
                                     props: {
                                         type: 'error',
@@ -441,7 +431,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params.index)
+                                            this.delete(params.index)
                                         }
                                     }
                                 }, '删除')
@@ -465,7 +455,7 @@
          //获取用户type
            this.userType = to.query.type;
            this.queryUserServer();
-           //表头切换
+           //表头切换 
            this.chengeType(this.userType);
            console.log(this.userType);
            let title = this.userType == 1 ? '管理员用户列表' : (this.userType == 2 ? '商家用户列表' : '厂家列表');

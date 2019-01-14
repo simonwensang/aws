@@ -139,10 +139,7 @@
                         title: '酒品牌名称',
                         key: 'brandName'
                     },
-                    {
-                        title: '供应链管理员名称',
-                        key: 'supplyManagerName'
-                    },
+        
                     {
                         title: '厂家名称',
                         key: 'factoryName'
