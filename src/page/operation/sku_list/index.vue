@@ -9,24 +9,15 @@
                 <FormItem label="实际灌装量(毫升)：" prop="volume">
                     <Input v-model="formData.volume" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem label="剩余量(毫升) ：" prop="remainder">
-                    <Input v-model="formData.remainder" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
+          
                 <FormItem label="销售单价(毫升) ：" prop="salePrice">
                     <Input v-model="formData.salePrice" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem label="进价单价(毫升)  ：" prop="buyPrice">
-                    <Input v-model="formData.buyPrice" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
-                <FormItem label="进价总价  ：" prop="totalBuyPrice">
-                    <Input v-model="formData.totalBuyPrice" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
+                
                 <FormItem label="RFID码：" prop="rfid">
                     <Input v-model="formData.rfid" style="width:300px;" :maxlength="11"></Input>
                 </FormItem>
-                <FormItem label="密码：" prop="password">
-                    <Input v-model="formData.password" style="width:300px;" :maxlength="11"></Input>
-                </FormItem>
+           
             </Form>
         </Modal>
         <Table border :columns="columns7" :data="data6"></Table>
@@ -140,12 +131,8 @@ export default {
                     key: 'salePrice'
                 },
                 {
-                    title: ' 进价单价(毫升) ',
-                    key: 'buyPrice'
-                },
-                {
-                    title: '进价总价',
-                    key: 'totalBuyPrice'
+                    title: ' rfid ',
+                    key: 'rfid'
                 },
                 {
                     title: '状态',
