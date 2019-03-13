@@ -103,8 +103,22 @@ export default {
             },
             modal1: false,
             columns7: [
-                {
+                  {
                     title: '商家名',
+                    key: 'name',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Icon', {
+                                props: {
+                                    type: 'person'
+                                }
+                            }),
+                            h('strong', params.row.name)
+                        ]);
+                    }
+                },
+                {
+                    title: '商家账户',
                     key: 'account',
                     render: (h, params) => {
                         return h('div', [
@@ -295,6 +309,9 @@ export default {
                             element.createTime = Util.transformTime(element.createTime);
                         }, this);
                     }
+                    this.data6 = !!response.dataMap.records ? response.dataMap.records : [];
+                    this.pageNo = !!response.dataMap.pageNo ? response.dataMap.pageNo : 1;
+                    this.totalRecords = response.dataMap.totalRecords;
                 }
             });
         },
